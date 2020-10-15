@@ -18,13 +18,12 @@ public class DelStudentCommand extends Command {
 
     public static final String COMMAND_WORD = "delstudent";
     public static final String MESSAGE_USAGE = COMMAND_WORD
-        + ": Removes a new Student from a specified tutorial group. \n"
+        + ": Removes a new Student from a specified tutorial group.\n"
         + "Parameters: "
         + PREFIX_GRP + "GRP "
         + PREFIX_STUDENT + "NAME "
-        + PREFIX_ID + "Student ID \n"
-        + "Example: " + COMMAND_WORD + " " + PREFIX_GRP + "G04" + " " + PREFIX_STUDENT + "Ryan" + " " + PREFIX_ID
-        + "e1234567";
+        + PREFIX_ID + "STUDXENT_ID \n"
+        + "Example: " + COMMAND_WORD + " " + PREFIX_GRP + "G04 " + PREFIX_STUDENT + "Ryan " + PREFIX_ID + "e1234567";
 
     public static final String MESSAGE_SUCCESS = "You removed %s (%s) from tutorial group %s";
 

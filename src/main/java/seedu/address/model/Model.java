@@ -120,6 +120,11 @@ public interface Model {
     ReadOnlySerenity getSerenity();
 
     /**
+     * Returns true if a group with the same identity as {@code group} exists in serenity.
+     */
+    boolean hasGroup(Group group);
+
+    /**
      * Returns true if a group with the same group name as {@code group} exists in serenity.
      */
     boolean hasGroupName(String groupName);
@@ -128,11 +133,6 @@ public interface Model {
      * Deletes the given group. The group must exist in serenity.
      */
     void deleteGroup(Group group);
-
-    /**
-     * Deletes the given group. The group must exist in serenity.
-     */
-    void deleteGroup(Group target);
 
     /**
      * Adds the given group. {@code group} must not already exist in serenity.

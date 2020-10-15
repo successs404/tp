@@ -19,11 +19,11 @@ public class AddScoreCommand extends Command {
     public static final String MESSAGE_SUCCESS = "%s: \nParticipation Score - %d";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Gives a student in the class a participation score. \n"
-            + "Parameters: " + " " + "SCORE "
-            + PREFIX_STUDENT + " NAME" + " " + PREFIX_ID + " STUDENT_NUMBER\n"
+            + ": Gives a student in the class a participation score.\n"
+            + "Parameters: SCORE "
+            + PREFIX_STUDENT + "NAME " + PREFIX_ID + "STUDENT_NUMBER\n"
             + "Example: " + COMMAND_WORD + " " + "2" + " "
-            + PREFIX_STUDENT + " Aaron Tan" + " " + PREFIX_ID + " e0123456";
+            + PREFIX_STUDENT + "Aaron Tan " + PREFIX_ID + "e0123456";
 
     private Student toAddScore;
     private int score;

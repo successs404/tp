@@ -15,13 +15,13 @@ public class AddStudentCommand extends Command {
 
     public static final String COMMAND_WORD = "addstudent";
     public static final String MESSAGE_USAGE = COMMAND_WORD
-        + ": Adds a new Student to a specified tutorial group. \n"
+        + ": Adds a new Student to a specified tutorial group.\n"
         + "Parameters: "
         + PREFIX_GRP + "GRP "
         + PREFIX_STUDENT + "NAME "
-        + PREFIX_ID + "Student ID \n"
-        + "Example: " + COMMAND_WORD + " " + PREFIX_GRP + "G04"
-        + " " + PREFIX_STUDENT + "Ryan" + " " + PREFIX_ID + "e1234567";
+        + PREFIX_ID + "Student ID\n"
+        + "Example: " + COMMAND_WORD + " " + PREFIX_GRP + "G04 "
+        + PREFIX_STUDENT + "Ryan " + PREFIX_ID + "e1234567";
 
     public static final String MESSAGE_SUCCESS = "You added %s (%s) to tutorial group %s";
 

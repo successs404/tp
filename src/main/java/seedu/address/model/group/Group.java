@@ -18,20 +18,11 @@ import seedu.address.commons.util.CsvUtil;
  */
 public class Group {
 
-<<<<<<< HEAD
     public static final String GROUP_NAME_CONSTRAINT = "Group name cannot be empty";
 
     private String name;
     private UniqueStudentList students;
     private UniqueLessonList lessons;
-=======
-    // Identity field
-    private final String name;
-
-    // Data fields
-    private final UniqueStudentList students;
-    private final UniqueLessonList lessons;
->>>>>>> 6a7bc8aefa06ad7fcec60b922cc111db70ad39ca
 
     /**
      * Constructs a {@code Group}
@@ -71,10 +62,7 @@ public class Group {
      * @param students A list of students.
      * @param lessons  A list of tutorial lessons.
      */
-<<<<<<< HEAD
 
-=======
->>>>>>> 6a7bc8aefa06ad7fcec60b922cc111db70ad39ca
     public Group(String name, UniqueStudentList students, UniqueLessonList lessons) {
         requireAllNonNull(name, students, lessons);
         this.name = name;

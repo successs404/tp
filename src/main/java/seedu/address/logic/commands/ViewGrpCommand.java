@@ -14,10 +14,11 @@ public class ViewGrpCommand extends Command {
 
     public static final String COMMAND_WORD = "viewgrp";
     public static final Object MESSAGE_USAGE = COMMAND_WORD
-            + ": Finds all students who are part of the specified group (case-insensitive) "
-            + "and displays them as a list with index numbers.\n"
-            + "Parameters: GROUP \n"
-            + "Example: " + COMMAND_WORD + " " + PREFIX_GRP + " G04";
+        + ": Finds all students who are part of the specified group (case-insensitive) "
+        + "and displays them as a list with index numbers.\n"
+        + "Parameters: "
+        + PREFIX_GRP + "GRP\n"
+        + "Example: " + COMMAND_WORD + " " + PREFIX_GRP + "G04";
 
     private final GrpContainsKeywordPredicate predicate;
 

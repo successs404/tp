@@ -2,7 +2,7 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_GRP;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PATH;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_LSN;
 
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
@@ -15,14 +15,15 @@ public class AddLsnCommand extends Command {
 
     public static final String COMMAND_WORD = "addlsn";
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Adds a new lesson to a specified tutorial group. "
-            + "Parameters: "
-            + PREFIX_GRP + "GRP "
-            + PREFIX_PATH + "PATH ";
+        + ": Adds a new lesson to a specified tutorial group.\n"
+        + "Parameters: "
+        + PREFIX_GRP + "GRP "
+        + PREFIX_LSN + "LSN\n"
+        + "Example: " + COMMAND_WORD + " " + PREFIX_GRP + "G04 " + PREFIX_LSN + "2-1";
 
     public static final String MESSAGE_SUCCESS = "New lesson for tutorial group %2$s added: %1$s";
     public static final String MESSAGE_DUPLICATE_LESSON = "This lesson for tutorial group %1$s already exists.";
-    public static final String MESSAGE_GROUP_DOES_NOT_EXIST = "Specified Tutorial Group does not exist!";
+    public static final String MESSAGE_GROUP_DOES_NOT_EXIST = "Specified tutorial group does not exist!";
     private final GrpContainsKeywordPredicate trgtGrp;
     private final String toAdd;
 

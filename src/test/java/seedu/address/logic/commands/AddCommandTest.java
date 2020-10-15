@@ -171,6 +171,16 @@ public class AddCommandTest {
         }
 
         @Override
+        public boolean hasGroup(Group group) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean hasGroupName(String groupName) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public void addStudentToGroup(Student student, Predicate<Group> predicate) {
             throw new AssertionError("This method should not be called.");
         }
@@ -182,11 +192,6 @@ public class AddCommandTest {
 
         @Override
         public ReadOnlySerenity getSerenity() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public boolean hasGroup(Group group) {
             throw new AssertionError("This method should not be called.");
         }
 

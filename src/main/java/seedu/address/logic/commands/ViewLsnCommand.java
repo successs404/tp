@@ -17,11 +17,13 @@ public class ViewLsnCommand extends Command {
 
     public static final String COMMAND_WORD = "viewlsn";
     public static final Object MESSAGE_USAGE = COMMAND_WORD
-            + ": Finds the attendance and class participation of all students "
-            + "from the specified lesson of a specific group (case-insensitive) and "
-            + "displays them as a list with index numbers.\n"
-            + "Parameters: GROUP LESSON\n"
-            + "Example: " + COMMAND_WORD + " " + PREFIX_GRP + " G04 " + PREFIX_LSN + " 2-2";
+        + ": Finds the attendance and class participation of all students "
+        + "from the specified lesson of a specific group (case-insensitive) and "
+        + "displays them as a list with index numbers.\n"
+        + "Parameters: "
+        + PREFIX_GRP + "GRP "
+        + PREFIX_LSN + "LSN\n"
+        + "Example: " + COMMAND_WORD + " " + PREFIX_GRP + "G04 " + PREFIX_LSN + "2-2";
 
     private final GrpContainsKeywordPredicate grpPredicate;
     private final LsnContainsKeywordPredicate lsnPredicate;

@@ -23,13 +23,12 @@ public class MarkAttCommand extends Command {
     public static final String MESSAGE_ALL_SUCCESS = "Attendance of all students marked present!";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Marks the attendance of all students / a student in a class. \n"
-            + "Parameters: "
-            + "all or "
-            + PREFIX_STUDENT + " NAME" + " " + PREFIX_ID + " STUDENT_NUMBER\n"
-            + "Example: " + COMMAND_WORD + " " + "all\n"
-            + "or " + COMMAND_WORD + " "
-            + PREFIX_STUDENT + " Aaron Tan" + " " + PREFIX_ID + " e0123456";
+        + ": Marks the attendance of all students / 1 student in a class.\n"
+        + "Parameters: "
+        + "all or "
+        + PREFIX_STUDENT + "NAME " + PREFIX_ID + "STUDENT_ID\n"
+        + "Example: " + COMMAND_WORD + " " + "all\n"
+        + "or " + COMMAND_WORD + " " + PREFIX_STUDENT + "Aaron Tan " + PREFIX_ID + "e0123456";
 
     private Student toMarkAtt;
     private boolean isWholeClass;

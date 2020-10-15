@@ -13,10 +13,11 @@ import seedu.address.model.group.Lesson;
 public class DeleteLsnCommand extends Command {
     public static final String COMMAND_WORD = "dellsn";
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": deletes a specified lesson from a specified tutorial group. "
-            + "Parameters: "
-            + PREFIX_GRP + "GRP "
-            + PREFIX_LSN + "PATH ";
+        + ": Deletes a specified lesson from a specified tutorial group.\n"
+        + "Parameters: "
+        + PREFIX_GRP + "GRP "
+        + PREFIX_LSN + "PATH\n"
+        + "Example: " + COMMAND_WORD + " " + PREFIX_GRP + "G04 " + PREFIX_LSN + "2-1";
 
     public static final String MESSAGE_SUCCESS = "lesson for tutorial group %2$s deleted: %1$s";
     public static final String MESSAGE_LESSON_NOT_FOUND = "This lesson for tutorial group %1$s does not exists.";

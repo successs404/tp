@@ -27,6 +27,7 @@ import seedu.address.model.group.Question;
 import seedu.address.model.group.Student;
 import seedu.address.model.group.StudentInfo;
 import seedu.address.model.person.Person;
+import seedu.address.testutil.Assert;
 import seedu.address.testutil.GroupBuilder;
 
 class AddGrpCommandTest {
@@ -182,6 +183,12 @@ class AddGrpCommandTest {
         }
 
         @Override
+        public boolean hasGroupName(String groupName) {
+            System.out.println("This method should be called");
+            return true;
+        }
+
+        @Override
         public void deleteGroup(Group target) {
             throw new AssertionError("This method should not be called.");
         }
@@ -193,7 +200,7 @@ class AddGrpCommandTest {
 
         @Override
         public void updateFilteredGroupList(Predicate<Group> predicate) {
-            throw new AssertionError("This method should not be called.");
+            System.out.println("This method should be called");
         }
 
         @Override
@@ -274,12 +281,6 @@ class AddGrpCommandTest {
         ModelStubWithGroup(Group group) {
             requireNonNull(group);
             this.group = group;
-        }
-
-        @Override
-        public boolean hasGroup(Group group) {
-            requireNonNull(group);
-            return this.group.isSameGroup(group);
         }
     }
 

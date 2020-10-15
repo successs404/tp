@@ -19,11 +19,11 @@ public class UnmarkAttCommand extends Command {
     public static final String MESSAGE_SUCCESS = "%s: \nAttendance - absent";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Unmarks the attendance of a student in a class. \n"
+            + ": Unmarks the attendance of a student in a class.\n"
             + "Parameters: "
-            + PREFIX_STUDENT + " NAME" + " " + PREFIX_ID + " STUDENT_NUMBER\n"
+            + PREFIX_STUDENT + "NAME "+ PREFIX_ID + "STUDENT_ID\n"
             + "Example: " + COMMAND_WORD + " "
-            + PREFIX_STUDENT + " Aaron Tan" + " " + PREFIX_ID + " e0123456";
+            + PREFIX_STUDENT + "Aaron Tan " + PREFIX_ID + "e0123456";
 
     private Student toUnmarkAtt;
 

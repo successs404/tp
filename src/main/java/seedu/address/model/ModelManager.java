@@ -187,6 +187,12 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public boolean hasGroup(Group group) {
+        requireNonNull(group);
+        return serenity.hasGroup(group);
+    }
+
+    @Override
     public boolean hasGroupName(String groupName) {
         for (Group group : serenity.getGroupList()) {
             if (group.getName().equals(groupName)) {
@@ -199,16 +205,6 @@ public class ModelManager implements Model {
     @Override
     public void deleteGroup(Group target) {
         serenity.removeGroup(target);
-    }
-
-    @Override
-    public void deleteGroup(Group target) {
-        serenity.removeGroup(target);
-        filteredGroups.clear();
-        students.clear();
-        lessons.clear();
-        filteredLessons.clear();
-        studentsInfo.clear();
     }
 
     @Override
