@@ -19,8 +19,8 @@ import seedu.address.model.group.Group;
 @JsonRootName(value = "serenity")
 class JsonSerializableSerenity {
 
-    public static final String MESSAGE_DUPLICATE_PERSON =
-        "Group list contains duplicate person(s).";
+    public static final String MESSAGE_DUPLICATE_GROUP =
+        "Group list contains duplicate group(s).";
 
     private final List<JsonAdaptedGroup> groups = new ArrayList<>();
 
@@ -52,7 +52,7 @@ class JsonSerializableSerenity {
         for (JsonAdaptedGroup jsonAdaptedGroup : groups) {
             Group group = jsonAdaptedGroup.toModelType();
             if (serenity.hasGroup(group)) {
-                throw new IllegalValueException(MESSAGE_DUPLICATE_PERSON);
+                throw new IllegalValueException(MESSAGE_DUPLICATE_GROUP);
             }
             serenity.addGroup(group);
         }

@@ -12,7 +12,7 @@ import javafx.collections.ObservableList;
 import seedu.address.commons.util.CsvUtil;
 
 /**
- * Represents a tutorial Group in serenity. Guarantees: details are present and not null, field values are validated,
+ * Represents a tutorial group in serenity. Guarantees: details are present and not null, field values are validated,
  * immutable.
  */
 public class Group {
@@ -21,7 +21,6 @@ public class Group {
     private String name;
 
     // Data fields
-    //private Set<Student> students;
     private UniqueStudentList students;
     private UniqueLessonList lessons;
 
@@ -33,12 +32,11 @@ public class Group {
      */
     public Group(String name, Path filePath) {
         requireAllNonNull(name, filePath);
-        this.name = name;
         CsvUtil util = new CsvUtil(filePath);
+        Set<StudentInfo> studentsInfo = util.readStudentsInfoFromCsv(util.readStudentsFromCsv());
+        this.name = name;
         students = new UniqueStudentList();
         students.setStudents(new ArrayList<>(util.readStudentsFromCsv()));
-        //todo: implement scores data
-        Set<StudentInfo> studentsInfo = util.readStudentsInfoFromCsv(util.readStudentsFromCsv());
         lessons = new UniqueLessonList();
         lessons.setLessons(new ArrayList<>(util.readLessonsFromCsv(studentsInfo)));
     }
@@ -61,11 +59,11 @@ public class Group {
      *
      * @param name     A valid name.
      * @param students A list of students.
-     * @param lessons  A list of tutorial classes.
+     * @param lessons  A list of tutorial lessons.
      */
 
-    public Group(String name, UniqueStudentList students, UniqueLessonList classes) {
-        requireAllNonNull(name, students, classes);
+    public Group(String name, UniqueStudentList students, UniqueLessonList lessons) {
+        requireAllNonNull(name, students, lessons);
         this.name = name;
         this.students = students;
         this.lessons = lessons;
@@ -92,12 +90,7 @@ public class Group {
     }
 
     public UniqueLessonList getSortedLessons() {
-        lessons.sort(new Comparator<Lesson>() {
-            @Override
-            public int compare(Lesson o1, Lesson o2) {
-                return o1.getName().compareTo(o2.getName());
-            }
-        });
+        lessons.sort(Comparator.comparing(Lesson::getName));
         return lessons;
     }
 
@@ -144,7 +137,7 @@ public class Group {
 
     @Override
     public String toString() {
-        return String.format("Group %s", name);
+        return String.format("Tutorial group %s", name);
     }
 
 }

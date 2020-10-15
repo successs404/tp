@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.group.Group;
 import seedu.address.model.group.Lesson;
@@ -23,9 +26,24 @@ class JsonAdaptedGroup {
     private final List<JsonAdaptedStudent> students = new ArrayList<>();
     private final List<JsonAdaptedLesson> lessons = new ArrayList<>();
 
+    /**
+     * Constructs a {@code JsonAdaptedGroup} with the given group details.
+     */
+    @JsonCreator
+    public JsonAdaptedGroup(@JsonProperty("name") String name,
+        @JsonProperty("students") List<JsonAdaptedStudent> students,
+        @JsonProperty("lessons") List<JsonAdaptedLesson> lessons) {
+        this.name = name;
+        if (students != null) {
+            this.students.addAll(students);
+        }
+        if (lessons != null) {
+            this.lessons.addAll(lessons);
+        }
+    }
 
     /**
-     * Converts a given {@code Group} into this class for Jackson use.
+     * Converts a given {@code Group} into this lesson for Jackson use.
      */
     public JsonAdaptedGroup(Group source) {
         name = source.getName();
@@ -44,8 +62,10 @@ class JsonAdaptedGroup {
      */
     public Group toModelType() throws IllegalValueException {
 
+        // name
         String modelName = name;
 
+        // students
         final List<Student> groupStudents = new ArrayList<>();
         for (JsonAdaptedStudent groupStudent : students) {
             groupStudents.add(groupStudent.toModelType());
@@ -55,10 +75,10 @@ class JsonAdaptedGroup {
 
         final UniqueStudentInfoList studentsInfo = new UniqueStudentInfoList();
 
+        // lessons
         final List<Lesson> groupLessons = new ArrayList<>();
         for (JsonAdaptedLesson groupLesson : lessons) {
-            Lesson lessonItem = new Lesson(groupLesson.getName(), studentsInfo);
-            groupLessons.add(lessonItem);
+            groupLessons.add(new Lesson(groupLesson.getName(), studentsInfo));
         }
         final UniqueLessonList modelLessons = new UniqueLessonList();
         modelLessons.setLessons(new ArrayList<>(groupLessons));
