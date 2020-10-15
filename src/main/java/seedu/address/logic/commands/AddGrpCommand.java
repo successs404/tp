@@ -7,15 +7,17 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PATH;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.group.Group;
+import seedu.address.model.group.GrpContainsKeywordPredicate;
 
 public class AddGrpCommand extends Command {
 
     public static final String COMMAND_WORD = "addgrp";
     public static final String MESSAGE_USAGE = COMMAND_WORD
-        + ": Adds a new tutorial group. "
+        + ": Adds a new tutorial group.\n"
         + "Parameters: "
         + PREFIX_GRP + "GRP "
-        + PREFIX_PATH + "PATH ";
+        + PREFIX_PATH + "PATH\n"
+        + "Example: " + COMMAND_WORD + " " + PREFIX_GRP + "G04 " + PREFIX_PATH + "CS2101_G04.csv";
 
     public static final String MESSAGE_SUCCESS = "New tutorial group added: %1$s";
     public static final String MESSAGE_DUPLICATE_GROUP = "This tutorial group already exists.";
@@ -34,11 +36,13 @@ public class AddGrpCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        if (model.hasGroup(toAdd)) {
+        if (model.hasGroupName(toAdd.getName())) {
             throw new CommandException(MESSAGE_DUPLICATE_GROUP);
         }
 
         model.addGroup(toAdd);
+        model.updateFilteredGroupList(new GrpContainsKeywordPredicate(toAdd.getName()));
+
         return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
     }
 

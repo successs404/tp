@@ -12,6 +12,7 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.group.Group;
+import seedu.address.model.group.GrpContainsKeywordPredicate;
 import seedu.address.model.group.Lesson;
 import seedu.address.model.group.Student;
 import seedu.address.model.group.StudentInfo;
@@ -181,9 +182,18 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public boolean hasGroup(Group group) {
-        requireNonNull(group);
-        return serenity.hasGroup(group);
+    public boolean hasGroupName(String groupName) {
+        for (Group group : serenity.getGroupList()) {
+            if (group.getName().equals(groupName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void deleteGroup(Group target) {
+        serenity.removeGroup(target);
     }
 
     @Override

@@ -11,8 +11,8 @@ import javafx.collections.ObservableList;
  */
 public class Lesson {
 
-    public static final String NAME_CONSTRAINT = "Class name cannot be empty";
-    public static final String STUDENTS_INFO_CONSTRAINT = "Students information cannot be empty";
+    public static final String LESSON_NAME_CONSTRAINT = "Class name cannot be empty";
+    public static final String STUDENT_INFO_CONSTRAINT = "Student information cannot be empty";
 
     private final String name;
     private final UniqueStudentInfoList studentsInfo;
@@ -24,8 +24,8 @@ public class Lesson {
      */
     public Lesson(String name, UniqueStudentInfoList studentsInfo) {
         requireAllNonNull(name, studentsInfo);
-        checkArgument(isValidName(name), NAME_CONSTRAINT);
-        checkArgument(isValidStudentInfo(studentsInfo), STUDENTS_INFO_CONSTRAINT);
+        checkArgument(isValidName(name), LESSON_NAME_CONSTRAINT);
+        checkArgument(isValidStudentInfo(studentsInfo), STUDENT_INFO_CONSTRAINT);
         this.name = name;
         this.studentsInfo = studentsInfo;
     }
@@ -62,7 +62,7 @@ public class Lesson {
 
         Lesson otherClass = (Lesson) obj;
         return otherClass.getName().equals(getName())
-                && otherClass.getStudentsInfo().equals(getStudentsInfo());
+            && otherClass.getStudentsInfo().equals(getStudentsInfo());
     }
 
     @Override

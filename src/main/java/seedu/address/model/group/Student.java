@@ -8,11 +8,12 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
  * immutable.
  */
 public class Student {
-    public static final String STUDENT_NAME_ERROR = "Name cannot be empty";
-    public static final String STUDENT_NUMBER_ERROR = "Student number cannot be empty";
+
+    public static final String STUDENT_NAME_CONSTRAINT = "Name cannot be empty";
+    public static final String STUDENT_NUMBER_CONSTRAINT = "Student number cannot be empty";
+
     private String name;
     private String studentNumber;
-
 
     /**
      * Constructs a {@code Student}.
@@ -22,8 +23,8 @@ public class Student {
      */
     public Student(String name, String studentNumber) {
         requireAllNonNull(name, studentNumber);
-        checkArgument(isValidString(name), STUDENT_NAME_ERROR);
-        checkArgument(isValidStudentNumber(studentNumber), STUDENT_NUMBER_ERROR);
+        checkArgument(isValidString(name), STUDENT_NAME_CONSTRAINT);
+        checkArgument(isValidStudentNumber(studentNumber), STUDENT_NUMBER_CONSTRAINT);
         this.name = name;
         this.studentNumber = studentNumber;
     }
@@ -34,8 +35,8 @@ public class Student {
 
     /**
      * Checks whether String s is a valid Student number
-     * @param s Student number
-     * @return Whether String is valid
+     * @param s A student number.
+     * @return Whether the student number is valid.
      */
     public static boolean isValidStudentNumber(String s) {
         //8 digits long

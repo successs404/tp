@@ -1,5 +1,6 @@
 package seedu.address.model.group;
 
+import static seedu.address.commons.util.AppUtil.checkArgument;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
@@ -17,10 +18,9 @@ import seedu.address.commons.util.CsvUtil;
  */
 public class Group {
 
-    // Identity field
-    private String name;
+    public static final String GROUP_NAME_CONSTRAINT = "Group name cannot be empty";
 
-    // Data fields
+    private String name;
     private UniqueStudentList students;
     private UniqueLessonList lessons;
 
@@ -32,6 +32,7 @@ public class Group {
      */
     public Group(String name, Path filePath) {
         requireAllNonNull(name, filePath);
+        checkArgument(isValidGroupName(name), GROUP_NAME_CONSTRAINT);
         CsvUtil util = new CsvUtil(filePath);
         Set<StudentInfo> studentsInfo = util.readStudentsInfoFromCsv(util.readStudentsFromCsv());
         this.name = name;
@@ -67,6 +68,10 @@ public class Group {
         this.name = name;
         this.students = students;
         this.lessons = lessons;
+    }
+
+    public static boolean isValidGroupName(String s) {
+        return s.length() > 0;
     }
 
     public String getName() {

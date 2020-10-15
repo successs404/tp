@@ -6,6 +6,7 @@ import java.util.function.Predicate;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.group.Group;
+import seedu.address.model.group.GrpContainsKeywordPredicate;
 import seedu.address.model.group.Lesson;
 import seedu.address.model.group.Student;
 import seedu.address.model.group.StudentInfo;
@@ -119,9 +120,14 @@ public interface Model {
     ReadOnlySerenity getSerenity();
 
     /**
-     * Returns true if a group with the same identity as {@code group} exists in serenity.
+     * Returns true if a group with the same group name as {@code group} exists in serenity.
      */
-    boolean hasGroup(Group group);
+    boolean hasGroupName(String groupName);
+
+    /**
+     * Deletes the given group. The group must exist in serenity.
+     */
+    void deleteGroup(Group group);
 
     /**
      * Adds the given group. {@code group} must not already exist in serenity.
