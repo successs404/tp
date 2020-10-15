@@ -14,9 +14,11 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.group.Group;
 import seedu.address.model.group.GrpContainsKeywordPredicate;
 import seedu.address.model.group.Lesson;
+import seedu.address.model.group.Question;
 import seedu.address.model.group.Student;
 import seedu.address.model.group.StudentInfo;
 import seedu.address.model.group.UniqueLessonList;
+import seedu.address.model.group.UniqueQuestionList;
 import seedu.address.model.group.UniqueStudentInfoList;
 import seedu.address.model.group.UniqueStudentList;
 import seedu.address.model.person.Person;
@@ -38,18 +40,19 @@ public class ModelManager implements Model {
     private final ArrayObservableList<Lesson> lessons;
     private final FilteredList<Lesson> filteredLessons;
     private final ArrayObservableList<StudentInfo> studentsInfo;
+    private final ArrayObservableList<Question> questions;
 
     /**
      * Initializes a ModelManager with the given addressBook, userPrefs and serenity.
      */
     public ModelManager(ReadOnlyAddressBook addressBook, ReadOnlyUserPrefs userPrefs,
-                        ReadOnlySerenity serenity) {
+        ReadOnlySerenity serenity) {
         super();
         requireAllNonNull(addressBook, userPrefs, serenity);
 
         logger.fine("Initializing with address book: " + addressBook
-                + " and user prefs " + userPrefs
-                + " and serenity " + serenity);
+            + " and user prefs " + userPrefs
+            + " and serenity " + serenity);
 
         this.addressBook = new AddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
@@ -61,6 +64,7 @@ public class ModelManager implements Model {
         lessons = new ArrayObservableList<>(new UniqueLessonList().asUnmodifiableObservableList());
         filteredLessons = new FilteredList<>(lessons);
         studentsInfo = new ArrayObservableList<>(new UniqueStudentInfoList().asUnmodifiableObservableList());
+        questions = new ArrayObservableList<>(new UniqueQuestionList().asUnmodifiableObservableList());
     }
 
     /**
@@ -82,6 +86,7 @@ public class ModelManager implements Model {
         lessons = new ArrayObservableList<>(new UniqueLessonList().asUnmodifiableObservableList());
         filteredLessons = new FilteredList<>(lessons);
         studentsInfo = new ArrayObservableList<>(new UniqueStudentInfoList().asUnmodifiableObservableList());
+        questions = new ArrayObservableList<>(new UniqueQuestionList().asUnmodifiableObservableList());
     }
 
     public ModelManager() {
@@ -197,9 +202,42 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public void deleteGroup(Group target) {
+        serenity.removeGroup(target);
+        filteredGroups.clear();
+        students.clear();
+        lessons.clear();
+        filteredLessons.clear();
+        studentsInfo.clear();
+    }
+
+    @Override
     public void addGroup(Group group) {
         requireNonNull(group);
         serenity.addGroup(group);
+    }
+
+    @Override
+    public void addStudentToGroup(Student student, Predicate<Group> predicate) {
+        requireAllNonNull(student, predicate);
+        updateFilteredGroupList(predicate);
+        if (!filteredGroups.isEmpty()) {
+            students.add(student);
+            Group currentGroup = filteredGroups.get(0);
+            currentGroup.addStudentToGroup(student);
+        }
+    }
+
+    @Override
+    public void removeStudentFromGroup(Student student, Predicate<Group> predicate) {
+        requireAllNonNull(student, predicate);
+        updateFilteredGroupList(predicate);
+        UniqueStudentList students = filteredGroups.get(0).getStudents();
+        if (!filteredGroups.isEmpty() && students.contains(student)) {
+            students.remove(student);
+            Group currentGroup = filteredGroups.get(0);
+            currentGroup.removeStudentFromGroup(student);
+        }
     }
 
     @Override
@@ -229,12 +267,20 @@ public class ModelManager implements Model {
         requireAllNonNull(predicate);
         this.filteredLessons.setPredicate(predicate);
         updateStudentInfoList();
+        updateQuestionList();
     }
 
     @Override
     public void updateStudentInfoList() {
         if (!filteredGroups.isEmpty() || !filteredLessons.isEmpty()) {
             this.studentsInfo.setAll(this.filteredLessons.get(0).getStudentsInfoAsUnmodifiableObservableList());
+        }
+    }
+
+    @Override
+    public void updateQuestionList() {
+        if (!filteredGroups.isEmpty() || !filteredLessons.isEmpty()) {
+            this.questions.setAll(this.filteredLessons.get(0).getQuestionListAsUnmodifiableObservableList());
         }
     }
 
@@ -261,6 +307,11 @@ public class ModelManager implements Model {
     @Override
     public ObservableList<StudentInfo> getStudentInfoList() {
         return studentsInfo;
+    }
+
+    @Override
+    public ObservableList<Question> getQuestionList() {
+        return questions;
     }
 
     //=========== Filtered Person List Accessors =============================================================

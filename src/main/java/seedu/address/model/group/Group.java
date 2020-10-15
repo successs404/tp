@@ -18,11 +18,20 @@ import seedu.address.commons.util.CsvUtil;
  */
 public class Group {
 
+<<<<<<< HEAD
     public static final String GROUP_NAME_CONSTRAINT = "Group name cannot be empty";
 
     private String name;
     private UniqueStudentList students;
     private UniqueLessonList lessons;
+=======
+    // Identity field
+    private final String name;
+
+    // Data fields
+    private final UniqueStudentList students;
+    private final UniqueLessonList lessons;
+>>>>>>> 6a7bc8aefa06ad7fcec60b922cc111db70ad39ca
 
     /**
      * Constructs a {@code Group}
@@ -62,7 +71,10 @@ public class Group {
      * @param students A list of students.
      * @param lessons  A list of tutorial lessons.
      */
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6a7bc8aefa06ad7fcec60b922cc111db70ad39ca
     public Group(String name, UniqueStudentList students, UniqueLessonList lessons) {
         requireAllNonNull(name, students, lessons);
         this.name = name;
@@ -97,6 +109,51 @@ public class Group {
     public UniqueLessonList getSortedLessons() {
         lessons.sort(Comparator.comparing(Lesson::getName));
         return lessons;
+    }
+
+    /**
+     * Adds a Student to a Group
+     *
+     * @param student Student to be added
+     */
+    public void addStudentToGroup(Student student) {
+        addToStudentList(student);
+        addToStudentListInLessons(student);
+    }
+
+    /**
+     * Removes a Student from the Group.
+     *
+     * @param student Student to be added
+     */
+    public void removeStudentFromGroup(Student student) {
+        removeStudentFromStudentListInLessons(student);
+    }
+
+
+    private void addToStudentList(Student student) {
+        students.add(student);
+    }
+
+
+    private void addToStudentListInLessons(Student student) {
+        for (Lesson lesson : lessons) {
+            StudentInfo newStudent = new StudentInfo(student);
+            UniqueStudentInfoList studentInfos = lesson.getStudentsInfo();
+            studentInfos.add(newStudent);
+            Lesson updatedLesson = new Lesson(lesson.getName(), studentInfos);
+            lessons.setLesson(lesson, updatedLesson);
+        }
+    }
+
+    private void removeStudentFromStudentListInLessons(Student student) {
+        for (Lesson lesson : lessons) {
+            StudentInfo newStudent = new StudentInfo(student);
+            UniqueStudentInfoList studentInfos = lesson.getStudentsInfo();
+            studentInfos.remove(newStudent);
+            Lesson updatedLesson = new Lesson(lesson.getName(), studentInfos);
+            lessons.setLesson(lesson, updatedLesson);
+        }
     }
 
     /**
@@ -144,5 +201,6 @@ public class Group {
     public String toString() {
         return String.format("Tutorial group %s", name);
     }
+
 
 }
