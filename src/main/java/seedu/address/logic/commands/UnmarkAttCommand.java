@@ -21,7 +21,7 @@ public class UnmarkAttCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Unmarks the attendance of a student in a class.\n"
             + "Parameters: "
-            + PREFIX_STUDENT + "NAME "+ PREFIX_ID + "STUDENT_ID\n"
+            + PREFIX_STUDENT + "NAME " + PREFIX_ID + "STUDENT_ID\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_STUDENT + "Aaron Tan " + PREFIX_ID + "e0123456";
 
