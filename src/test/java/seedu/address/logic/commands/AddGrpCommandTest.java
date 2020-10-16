@@ -27,7 +27,6 @@ import seedu.address.model.group.Question;
 import seedu.address.model.group.Student;
 import seedu.address.model.group.StudentInfo;
 import seedu.address.model.person.Person;
-import seedu.address.testutil.Assert;
 import seedu.address.testutil.GroupBuilder;
 
 class AddGrpCommandTest {
