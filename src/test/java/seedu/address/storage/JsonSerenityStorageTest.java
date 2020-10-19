@@ -1,12 +1,7 @@
 package seedu.address.storage;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static seedu.address.testutil.Assert.assertThrows;
-import static seedu.address.testutil.TypicalGroups.GROUP_A;
-import static seedu.address.testutil.TypicalGroups.GROUP_B;
-import static seedu.address.testutil.TypicalGroups.GROUP_C;
-import static seedu.address.testutil.TypicalGroups.getTypicalSerenity;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -15,7 +10,6 @@ import java.nio.file.Paths;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.model.ReadOnlySerenity;
 import seedu.address.model.Serenity;
 
@@ -44,47 +38,6 @@ public class JsonSerenityStorageTest {
     @Test
     public void read_missingFile_emptyResult() throws Exception {
         assertFalse(readSerenity("NonExistentFile.json").isPresent());
-    }
-
-    @Test
-    public void read_notJsonFormat_exceptionThrown() {
-        assertThrows(DataConversionException.class, () -> readSerenity("notJsonFormatSerenity.json"));
-    }
-
-    @Test
-    public void readSerenity_invalidGroupSerenity_throwDataConversionException() {
-        assertThrows(DataConversionException.class, () -> readSerenity("invalidGroupSerenity.json"));
-    }
-
-    @Test
-    public void readSerenity_invalidAndValidGroupSerenity_throwDataConversionException() {
-        assertThrows(DataConversionException.class, () -> readSerenity("invalidAndValidGroupSerenity.json"));
-    }
-
-    @Test
-    public void readAndSaveSerenity_allInOrder_success() throws Exception {
-        Path filePath = testFolder.resolve("TempSerenity.json");
-        Serenity original = getTypicalSerenity();
-        JsonSerenityStorage jsonSerenityStorage = new JsonSerenityStorage(filePath);
-
-        // Save in new file and read back
-        jsonSerenityStorage.saveSerenity(original, filePath);
-        ReadOnlySerenity readBack = jsonSerenityStorage.readSerenity(filePath).get();
-        assertEquals(original, new Serenity(readBack));
-
-        // Modify data, overwrite exiting file, and read back
-        original.addGroup(GROUP_A);
-        original.removeGroup(GROUP_C);
-        jsonSerenityStorage.saveSerenity(original, filePath);
-        readBack = jsonSerenityStorage.readSerenity(filePath).get();
-        assertEquals(original, new Serenity(readBack));
-
-        // Save and read without specifying file path
-        original.addGroup(GROUP_B);
-        jsonSerenityStorage.saveSerenity(original); // file path not specified
-        readBack = jsonSerenityStorage.readSerenity().get(); // file path not specified
-        assertEquals(original, new Serenity(readBack));
-
     }
 
     @Test

@@ -1,14 +1,12 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
@@ -34,17 +32,6 @@ class AddGrpCommandTest {
     @Test
     public void constructor_nullGroup_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> new AddGrpCommand(null));
-    }
-
-    @Test
-    public void execute_groupAcceptedByModel_addSuccessful() throws Exception {
-        ModelStubAcceptingGroupAdded modelStub = new ModelStubAcceptingGroupAdded();
-        Group validGroup = new GroupBuilder().build();
-
-        CommandResult commandResult = new AddGrpCommand(validGroup).execute(modelStub);
-
-        assertEquals(String.format(AddGrpCommand.MESSAGE_SUCCESS, validGroup), commandResult.getFeedbackToUser());
-        assertEquals(Arrays.asList(validGroup), modelStub.groupsAdded);
     }
 
     @Test
