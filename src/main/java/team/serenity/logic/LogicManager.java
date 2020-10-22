@@ -17,7 +17,6 @@ import team.serenity.model.group.Lesson;
 import team.serenity.model.group.Question;
 import team.serenity.model.group.Student;
 import team.serenity.model.group.StudentInfo;
-import team.serenity.storage.Storage;
 
 /**
  * The main LogicManager of the app.
@@ -28,15 +27,13 @@ public class LogicManager implements Logic {
     private final Logger logger = LogsCenter.getLogger(LogicManager.class);
 
     private final Model model;
-    private final Storage storage;
     private final SerenityParser serenityParser;
 
     /**
      * Constructs a {@code LogicManager} with the given {@code Model} and {@code Storage}.
      */
-    public LogicManager(Model model, Storage storage) {
+    public LogicManager(Model model) {
         this.model = model;
-        this.storage = storage;
         this.serenityParser = new SerenityParser();
     }
 
@@ -47,15 +44,6 @@ public class LogicManager implements Logic {
         CommandResult commandResult;
         Command command = this.serenityParser.parseCommand(commandText);
         commandResult = command.execute(model);
-
-        /*
-        TODO: To write the data to the external file after each command is executed.
-        try {
-            // storage.saveSerenity(model.getSerenity());
-        } catch (IOException ioe) {
-            throw new CommandException(FILE_OPS_ERROR_MESSAGE + ioe, ioe);
-        }
-         */
 
         return commandResult;
     }
