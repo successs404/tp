@@ -36,7 +36,7 @@ MainWindow -left-|> UiPart
 ResultDisplay --|> UiPart
 CommandBox --|> UiPart
 HelpWindow -down-|> UiPart
-ButtonBar -down-|> VBox
+ButtonBar -down-|> UiPart
 DataPanel -down-|> UiPart
 
 UiManager -right-> Logic
