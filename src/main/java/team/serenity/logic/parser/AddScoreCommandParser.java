@@ -8,6 +8,7 @@ import static team.serenity.logic.parser.CliSyntax.PREFIX_SCORE;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import team.serenity.commons.util.ParserUtil;
 import team.serenity.logic.commands.AddScoreCommand;
 import team.serenity.logic.parser.exceptions.ParseException;
 import team.serenity.model.group.Student;
@@ -40,10 +41,10 @@ public class AddScoreCommandParser implements Parser<AddScoreCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddScoreCommand.MESSAGE_USAGE));
         }
 
-        studentName = SerenityParserUtil.parseStudentName(argMultimap.getValue(PREFIX_NAME).get());
-        studentNumber = SerenityParserUtil.parseStudentID(argMultimap.getValue(PREFIX_ID).get());
+        studentName = ParserUtil.parseStudentName(argMultimap.getValue(PREFIX_NAME).get());
+        studentNumber = ParserUtil.parseStudentID(argMultimap.getValue(PREFIX_ID).get());
         student = Optional.ofNullable(new Student(studentName, studentNumber));
-        score = SerenityParserUtil.parseScore(argMultimap.getValue(PREFIX_SCORE).get());
+        score = ParserUtil.parseScore(argMultimap.getValue(PREFIX_SCORE).get());
         if (score < 0 || score > 5) {
             throw new ParseException(MESSAGE_SCORE_NOT_WITHIN_RANGE);
         }

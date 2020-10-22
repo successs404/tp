@@ -7,6 +7,7 @@ import static team.serenity.logic.parser.CliSyntax.PREFIX_NAME;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import team.serenity.commons.util.ParserUtil;
 import team.serenity.logic.commands.MarkAbsentCommand;
 import team.serenity.logic.parser.exceptions.ParseException;
 import team.serenity.model.group.Student;
@@ -34,8 +35,8 @@ public class MarkAbsentCommandParser implements Parser<MarkAbsentCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, MarkAbsentCommand.MESSAGE_USAGE));
         }
 
-        String studentName = SerenityParserUtil.parseStudentName(argMultimap.getValue(PREFIX_NAME).get());
-        String studentNumber = SerenityParserUtil.parseStudentID(argMultimap.getValue(PREFIX_ID).get());
+        String studentName = ParserUtil.parseStudentName(argMultimap.getValue(PREFIX_NAME).get());
+        String studentNumber = ParserUtil.parseStudentID(argMultimap.getValue(PREFIX_ID).get());
         Optional<Student> student = Optional.ofNullable(new Student(studentName, studentNumber));
 
         return new MarkAbsentCommand(student.get());

@@ -3,6 +3,7 @@ package team.serenity.logic.parser;
 import static team.serenity.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
 import team.serenity.commons.core.index.Index;
+import team.serenity.commons.util.ParserUtil;
 import team.serenity.logic.commands.DelQnCommand;
 import team.serenity.logic.parser.exceptions.ParseException;
 
@@ -19,7 +20,7 @@ public class DelQnCommandParser implements Parser<DelQnCommand> {
      */
     public DelQnCommand parse(String args) throws ParseException {
         try {
-            Index index = SerenityParserUtil.parseIndex(args);
+            Index index = ParserUtil.parseIndex(args);
             return new DelQnCommand(index);
         } catch (ParseException pe) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DelQnCommand.MESSAGE_USAGE), pe);

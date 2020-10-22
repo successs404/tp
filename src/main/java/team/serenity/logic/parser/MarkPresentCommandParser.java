@@ -7,6 +7,7 @@ import static team.serenity.logic.parser.CliSyntax.PREFIX_NAME;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import team.serenity.commons.util.ParserUtil;
 import team.serenity.logic.commands.MarkPresentCommand;
 import team.serenity.logic.parser.exceptions.ParseException;
 import team.serenity.model.group.Student;
@@ -39,8 +40,8 @@ public class MarkPresentCommandParser implements Parser<MarkPresentCommand> {
         if (argMultimap.getValue(PREFIX_NAME).isPresent() && argMultimap.getValue(PREFIX_ID).isPresent()) {
 
             // If single student specified, get student
-            studentName = SerenityParserUtil.parseStudentName(argMultimap.getValue(PREFIX_NAME).get());
-            studentNumber = SerenityParserUtil.parseStudentID(argMultimap.getValue(PREFIX_ID).get());
+            studentName = ParserUtil.parseStudentName(argMultimap.getValue(PREFIX_NAME).get());
+            studentNumber = ParserUtil.parseStudentID(argMultimap.getValue(PREFIX_ID).get());
             student = Optional.ofNullable(new Student(studentName, studentNumber));
 
             return new MarkPresentCommand(student.get());
