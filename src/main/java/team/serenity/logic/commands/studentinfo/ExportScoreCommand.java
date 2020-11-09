@@ -39,12 +39,8 @@ public class ExportScoreCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-
         model.updateFilteredGroupList(this.grpPredicate);
-
-        if (model.getFilteredGroupList().isEmpty()) {
-            throw new CommandException(MESSAGE_GROUP_DOES_NOT_EXIST);
-        }
+        checkIfGroupIsEmpty(model);
         Group toExport = model.getFilteredGroupList().get(0);
         model.exportParticipation(toExport);
         return new CommandResult(String.format(MESSAGE_SUCCESS,

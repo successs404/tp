@@ -74,6 +74,7 @@ public class XlsxUtil {
     /**
      * Creates a XlsxUtil object that manages XLSX files.
      *
+     * @param filePath The path of the XLSX file that the tutor downloads from LUMINUS.
      * @param workbook The workbook of the XLSX file.
      */
     public XlsxUtil(String filePath, Workbook workbook) {
@@ -100,15 +101,22 @@ public class XlsxUtil {
 
     /**
      * Checks the validity of the XLSX file.
-     * @throws ParseException a parsing exception
+     *
+     * @throws ParseException a parsing exception.
      */
     public void checkValidityOfXlsx() throws ParseException {
+        checkValidityXlsxEmpty();
+        checkValidityXlsxContents(this.sheet.iterator());
+    }
+
+    private void checkValidityXlsxEmpty() throws ParseException {
         if (sheet.getLastRowNum() == -1) {
             throw new ParseException(MESSAGE_FILE_EMPTY);
         }
-        Iterator<Row> rowIterator = this.sheet.iterator();
-        Row headerRow = skipRowsToHeaderRow(rowIterator);
-        if (headerRow == null) {
+    }
+
+    private void checkValidityXlsxContents(Iterator<Row> rowIterator) throws ParseException {
+        if (skipRowsToHeaderRow(rowIterator) == null) {
             throw new ParseException(MESSAGE_INVALID_HEADER_COLUMNS);
         }
         if (!rowIterator.hasNext()) {
@@ -132,8 +140,8 @@ public class XlsxUtil {
             && this.formatter.formatCellValue(row.getCell(2)).equals("Student Number");
     }
 
-    private void readDetailsOfStudents(Iterator<Row> rowIterator,
-        Set<Student> students) throws IllegalArgumentException {
+    private void readDetailsOfStudents(Iterator<Row> rowIterator, Set<Student> students)
+        throws IllegalArgumentException {
         while (rowIterator.hasNext()) {
             Row row = rowIterator.next();
             Iterator<Cell> cellIterator = row.cellIterator();
@@ -152,8 +160,9 @@ public class XlsxUtil {
 
     /**
      * Reads a set of the Lessons
-     * @param studentsInfo Set of StudentInfo
-     * @return Set of Lessons
+     *
+     * @param studentsInfo Set of StudentInfo.
+     * @return Set of Lessons.
      */
     public Set<Lesson> readLessonsFromXlsx(Set<StudentInfo> studentsInfo) {
         Set<Lesson> lessons = new HashSet<>();
@@ -180,29 +189,36 @@ public class XlsxUtil {
     private String formatLessonName(String lessonName) {
         String trimmedLessonName = lessonName.substring(1); // remove the first character "T" from the lessonName
         int lessonNumbering = Integer.parseInt(trimmedLessonName);
-        boolean isEvenWeek = lessonNumbering % 2 == 0;
-        int weekNumber = isEvenWeek ? lessonNumbering / 2 : lessonNumbering / 2 + 1;
-        int lessonNumber = isEvenWeek ? 2 : 1;
+        int weekNumber = lessonNumbering / 2 + lessonNumbering % 2;
+        int lessonNumber = 2 - lessonNumbering % 2;
         return String.format("%d-%d", weekNumber, lessonNumber);
     }
 
     /**
      * Creates a new set of StudentInfo from XLSX.
      *
-     * @return Set of studentInfo.
+     * @param students Set of Students.
+     * @return Set of StudentInfo.
      */
     public Set<StudentInfo> readStudentsInfoFromXlsx(Set<Student> students) {
         Set<StudentInfo> studentsInfo = new HashSet<>();
-        for (Student student : students) {
-            studentsInfo.add(new StudentInfo(student));
-        }
+        initialiseStudentInfo(students, studentsInfo);
         List<StudentInfo> studentInfoList = new ArrayList<>(studentsInfo);
         studentInfoList.sort(new StudentInfoSorter());
         return new LinkedHashSet<>(studentInfoList);
     }
 
+    private void initialiseStudentInfo(Set<Student> students, Set<StudentInfo> studentsInfo) {
+        for (Student student : students) {
+            studentsInfo.add(new StudentInfo(student));
+        }
+    }
+
     /**
      * Write attendance data to XLSX file.
+     *
+     * @param group Group to export the attendance records.
+     * @param studentInfoMap List of StudentInfo.
      */
     public void writeAttendanceToXlsx(Group group, Map<GroupLessonKey, UniqueList<StudentInfo>> studentInfoMap) {
         UniqueList<Student> studentList = group.getSortedStudents();
@@ -215,7 +231,7 @@ public class XlsxUtil {
             for (StudentInfo studentInfo : studentInfoMap.get(groupLessonKey)) {
                 Student student = studentInfo.getStudent();
                 Optional<List<Integer>> attList = Optional.ofNullable(studentDetailsMap.get(student.getStudentNo()));
-                List<Integer> newAttList = attList.isEmpty() ? new ArrayList<>() : attList.get();
+                List<Integer> newAttList = attList.orElseGet(ArrayList::new);
                 newAttList.add(studentInfo.getAttendance().getIntegerAttendance());
                 studentDetailsMap.put(student.getStudentNo(), newAttList);
             }
@@ -227,6 +243,9 @@ public class XlsxUtil {
 
     /**
      * Write participation score data to XLSX file.
+     *
+     * @param group Group to export the participation score records.
+     * @param studentInfoMap List of StudentInfo.
      */
     public void writeScoreToXlsx(Group group, Map<GroupLessonKey, UniqueList<StudentInfo>> studentInfoMap) {
         UniqueList<Student> studentList = group.getSortedStudents();
@@ -239,7 +258,7 @@ public class XlsxUtil {
             for (StudentInfo studentInfo : studentInfoMap.get(groupLessonKey)) {
                 Student student = studentInfo.getStudent();
                 Optional<List<Integer>> scoreList = Optional.ofNullable(studentDetailsMap.get(student.getStudentNo()));
-                List<Integer> newScoreList = scoreList.isEmpty() ? new ArrayList<>() : scoreList.get();
+                List<Integer> newScoreList = scoreList.orElseGet(ArrayList::new);
                 newScoreList.add(studentInfo.getParticipation().getScore());
                 studentDetailsMap.put(student.getStudentNo(), newScoreList);
             }

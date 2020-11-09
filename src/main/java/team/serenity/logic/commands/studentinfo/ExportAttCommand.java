@@ -39,12 +39,8 @@ public class ExportAttCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-
-        model.updateFilteredGroupList(this.grpPredicate);
-
-        if (model.getFilteredGroupList().isEmpty()) {
-            throw new CommandException(MESSAGE_GROUP_DOES_NOT_EXIST);
-        }
+        model.updateFilteredGroupList(grpPredicate);
+        checkIfGroupIsEmpty(model);
         Group toExport = model.getFilteredGroupList().get(0);
         model.exportAttendance(toExport);
         return new CommandResult(String.format(MESSAGE_SUCCESS,
@@ -55,7 +51,7 @@ public class ExportAttCommand extends Command {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
             || (other instanceof ExportAttCommand // instanceof handles nulls
-            && this.grpPredicate.equals(((ExportAttCommand) other).grpPredicate));
+            && grpPredicate.equals(((ExportAttCommand) other).grpPredicate));
     }
 
 }

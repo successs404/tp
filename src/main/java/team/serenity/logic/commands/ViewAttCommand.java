@@ -38,19 +38,17 @@ public class ViewAttCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        model.updateFilteredGroupList(this.predicate);
-        if (model.getFilteredGroupList().isEmpty()) {
-            throw new CommandException(MESSAGE_GROUP_EMPTY);
-        }
+        model.updateFilteredGroupList(predicate);
+        checkIfGroupIsEmpty(model);
         model.updateFilteredLessonList(Model.PREDICATE_SHOW_ALL_LESSONS);
-        return new CommandResult(this.getMessage(model), CommandResult.UiAction.VIEW_ATT);
+        return new CommandResult(getMessage(model), CommandResult.UiAction.VIEW_ATT);
     }
 
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
             || (other instanceof ViewAttCommand // instanceof handles nulls
-            && this.predicate.equals(((ViewAttCommand) other).predicate)); // state check
+            && predicate.equals(((ViewAttCommand) other).predicate)); // state check
     }
 
 }

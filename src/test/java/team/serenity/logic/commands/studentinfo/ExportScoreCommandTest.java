@@ -2,6 +2,7 @@ package team.serenity.logic.commands.studentinfo;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static team.serenity.commons.core.Messages.MESSAGE_ASSERTION_ERROR_METHOD;
+import static team.serenity.commons.core.Messages.MESSAGE_GROUP_EMPTY;
 import static team.serenity.logic.commands.studentinfo.ExportScoreCommand.MESSAGE_GROUP_DOES_NOT_EXIST;
 import static team.serenity.logic.commands.studentinfo.ExportScoreCommand.MESSAGE_SUCCESS;
 import static team.serenity.testutil.Assert.assertThrows;
@@ -29,7 +30,7 @@ public class ExportScoreCommandTest {
     void execute_noGroup() {
         ModelStub modelStub = new ExportScoreCommandTest.ModelStubWithNoGroup();
         ExportScoreCommand exportScoreCommand = new ExportScoreCommand(new GroupContainsKeywordPredicate("G01"));
-        assertThrows(CommandException.class, MESSAGE_GROUP_DOES_NOT_EXIST, () -> exportScoreCommand.execute(modelStub));
+        assertThrows(CommandException.class, MESSAGE_GROUP_EMPTY, () -> exportScoreCommand.execute(modelStub));
     }
 
     @Test

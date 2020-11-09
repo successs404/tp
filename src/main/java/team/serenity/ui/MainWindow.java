@@ -102,7 +102,7 @@ public class MainWindow extends UiPart<Stage> {
     /**
      * Sets the accelerator of a MenuItem.
      *
-     * @param keyCombination the KeyCombination value of the accelerator
+     * @param keyCombination the KeyCombination value of the accelerator.
      */
     private void setAccelerator(MenuItem menuItem, KeyCombination keyCombination) {
         menuItem.setAccelerator(keyCombination);
@@ -148,10 +148,11 @@ public class MainWindow extends UiPart<Stage> {
     private void setWindowDefaultSize(GuiSettings guiSettings) {
         this.primaryStage.setHeight(guiSettings.getWindowHeight());
         this.primaryStage.setWidth(guiSettings.getWindowWidth());
-        if (guiSettings.getWindowCoordinates() != null) {
-            this.primaryStage.setX(guiSettings.getWindowCoordinates().getX());
-            this.primaryStage.setY(guiSettings.getWindowCoordinates().getY());
+        if (guiSettings.getWindowCoordinates() == null) {
+            return;
         }
+        this.primaryStage.setX(guiSettings.getWindowCoordinates().getX());
+        this.primaryStage.setY(guiSettings.getWindowCoordinates().getY());
     }
 
     /**
@@ -161,9 +162,9 @@ public class MainWindow extends UiPart<Stage> {
     public void handleHelp() {
         if (!this.helpWindow.isShowing()) {
             this.helpWindow.show();
-        } else {
-            this.helpWindow.focus();
+            return;
         }
+        this.helpWindow.focus();
     }
 
     void show() {
@@ -184,6 +185,8 @@ public class MainWindow extends UiPart<Stage> {
 
     /**
      * Switch to lesson data view if in group data view.
+     *
+     * @param groupName Name of the group to view.
      */
     @FXML
     private void handleViewGrp(String groupName) {
@@ -195,6 +198,9 @@ public class MainWindow extends UiPart<Stage> {
 
     /**
      * Switch to group data view if in lesson data view.
+     *
+     * @param groupName Name of the group to view.
+     * @param lessonName Name of the lesson to view.
      */
     @FXML
     private void handleViewLsn(String groupName, String lessonName) {
@@ -226,6 +232,13 @@ public class MainWindow extends UiPart<Stage> {
         setUpGroupButton(groupButton);
     }
 
+    /**
+     * Set up group button.
+     *
+     * @param button Button to set up.
+     * @param imgUrl Image url.
+     * @param event Event to handle.
+     */
     public void setUpButton(Button button, String imgUrl, EventHandler<ActionEvent> event) {
         button.setLayoutX(20);
         button.setLayoutY(65);
@@ -246,48 +259,49 @@ public class MainWindow extends UiPart<Stage> {
         sideBar.addButton(button);
     }
 
+    /**
+     * Set up flagged attendance button.
+     */
     public void setUpAttButton() {
         Button attButton = new Button("Flags");
         String attImgUrl = "images/flag.png";
         EventHandler<ActionEvent> attEvent = event -> {
-            String commandText = "viewflag";
-            try {
-                executeCommand(commandText);
-            } catch (CommandException | ParseException e) {
-                e.printStackTrace();
-            }
+            executeCommandHandler("viewflag");
         };
         setUpButton(attButton, attImgUrl, attEvent);
     }
 
+    /**
+     * Set up pending questions button.
+     */
     public void setUpQnButton() {
         Button qnButton = new Button("Qns");
         String qnImgUrl = "images/question.png";
         EventHandler<ActionEvent> qnEvent = event -> {
-            String commandText = "viewqn";
-            try {
-                executeCommand(commandText);
-            } catch (CommandException | ParseException e) {
-                e.printStackTrace();
-            }
+            executeCommandHandler("viewqn");
         };
         setUpButton(qnButton, qnImgUrl, qnEvent);
     }
 
     /**
      * Sets up the newly created group button.
+     *
+     * @param groupButton Tutorial group button.
      */
     public void setUpGroupButton(Button groupButton) {
         String groupImgUrl = "images/group.png";
         EventHandler<ActionEvent> groupEvent = event -> {
-            String commandText = "viewgrp grp/" + groupButton.getText();
-            try {
-                executeCommand(commandText);
-            } catch (CommandException | ParseException e) {
-                e.printStackTrace();
-            }
+            executeCommandHandler("viewgrp grp/" + groupButton.getText());
         };
         setUpButton(groupButton, groupImgUrl, groupEvent);
+    }
+
+    private void executeCommandHandler(String commandText) {
+        try {
+            executeCommand(commandText);
+        } catch (CommandException | ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -363,8 +377,6 @@ public class MainWindow extends UiPart<Stage> {
      */
     private CommandResult executeCommand(String commandText) throws CommandException, ParseException {
         try {
-            String groupName;
-            String lessonName;
             commandText = commandText.replaceAll("\\s+", " ");
             CommandResult commandResult = this.logic.execute(commandText);
             this.logger.info("Result: " + commandResult.getFeedbackToUser());
@@ -380,36 +392,30 @@ public class MainWindow extends UiPart<Stage> {
                 break;
 
             case VIEW_GRP:
-                groupName = getGroupName(commandText);
-                handleViewGrp(groupName);
+                handleViewGrp(getGroupName(commandText));
                 break;
 
             case VIEW_LSN:
-                groupName = getGroupName(commandText);
-                lessonName = getLessonName(commandText);
-                handleViewLsn(groupName, lessonName);
+                handleViewLsn(getGroupName(commandText), getLessonName(commandText));
                 break;
 
             case ADD_GRP:
-                groupName = getGroupName(commandText);
+                String groupName = getGroupName(commandText);
                 handleAddGrp(groupName);
                 handleViewGrp(groupName);
                 break;
 
             case DEL_GRP:
-                groupName = getGroupName(commandText);
-                handleDelGrp(groupName);
+                handleDelGrp(getGroupName(commandText));
                 break;
 
             case VIEW_ATT:
-                groupName = getGroupName(commandText);
-                handleViewGrp(groupName);
+                handleViewGrp(getGroupName(commandText));
                 handleViewAtt();
                 break;
 
             case VIEW_SCORE:
-                groupName = getGroupName(commandText);
-                handleViewGrp(groupName);
+                handleViewGrp(getGroupName(commandText));
                 handleViewScore();
                 break;
 
@@ -426,7 +432,6 @@ public class MainWindow extends UiPart<Stage> {
                 break;
 
             default:
-
             }
 
             return commandResult;

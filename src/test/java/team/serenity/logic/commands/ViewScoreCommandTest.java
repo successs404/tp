@@ -31,19 +31,14 @@ public class ViewScoreCommandTest {
     }
 
     @Test
-    void execute_containsGroup() {
-        try {
-            ModelStub modelStub = new ViewScoreCommandTest.ModelStubWithGroup();
-            ViewScoreCommand viewScoreCommand = new ViewScoreCommand(new GroupContainsKeywordPredicate("G01"));
-            CommandResult actual = viewScoreCommand.execute(modelStub);
-            assertEquals(
-                String.format(MESSAGE_SCORE_LISTED_OVERVIEW, modelStub.getFilteredGroupList().get(0).getGroupName()),
-                actual.getFeedbackToUser()
-            );
-        } catch (CommandException e) {
-            throw new AssertionError(MESSAGE_ASSERTION_ERROR_METHOD, e);
-        }
-
+    void execute_containsGroup() throws CommandException {
+        ModelStub modelStub = new ViewScoreCommandTest.ModelStubWithGroup();
+        ViewScoreCommand viewScoreCommand = new ViewScoreCommand(new GroupContainsKeywordPredicate("G01"));
+        CommandResult actual = viewScoreCommand.execute(modelStub);
+        assertEquals(
+            String.format(MESSAGE_SCORE_LISTED_OVERVIEW, modelStub.getFilteredGroupList().get(0).getGroupName()),
+            actual.getFeedbackToUser()
+        );
     }
 
     private static class ModelStubWithGroup extends ModelStub {

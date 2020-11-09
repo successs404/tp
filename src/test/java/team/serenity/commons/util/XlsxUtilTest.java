@@ -31,9 +31,7 @@ import team.serenity.testutil.StudentBuilder;
 public class XlsxUtilTest {
 
     private Set<Student> expectedStudents = ExpectedGroup.getExpectedStudents();
-
     private Set<StudentInfo> expectedStudentsInfo = ExpectedGroup.getExpectedStudentsInfo();
-
     private Set<Lesson> expectedLessons = ExpectedGroup.getExpectedLessons();
 
     @Test
@@ -58,33 +56,21 @@ public class XlsxUtilTest {
     }
 
     @Test
-    public void checkValidityOfXlsx_validXlsx_success() {
-        try {
-            XlsxUtil util = new XlsxUtil(VALID_PATH_G04);
-            util.checkValidityOfXlsx();
-        } catch (ParseException e) {
-            throw new AssertionError(MESSAGE_ASSERTION_ERROR_METHOD, e);
-        }
+    public void checkValidityOfXlsx_validXlsx_success() throws ParseException {
+        XlsxUtil util = new XlsxUtil(VALID_PATH_G04);
+        util.checkValidityOfXlsx();
     }
 
     @Test
-    public void checkValidityOfXlsx_validXlsxNoTitle_success() {
-        try {
-            XlsxUtil util = new XlsxUtil(VALID_XLSX_NO_TITLE);
-            util.checkValidityOfXlsx();
-        } catch (ParseException e) {
-            throw new AssertionError("Execution of method should not fail", e);
-        }
+    public void checkValidityOfXlsx_validXlsxNoTitle_success() throws ParseException {
+        XlsxUtil util = new XlsxUtil(VALID_XLSX_NO_TITLE);
+        util.checkValidityOfXlsx();
     }
 
     @Test
-    public void checkValidityOfXlsx_validXlsxNoLessons_success() {
-        try {
-            XlsxUtil util = new XlsxUtil(VALID_XLSX_NO_LESSONS);
-            util.checkValidityOfXlsx();
-        } catch (ParseException e) {
-            throw new AssertionError("Execution of method should not fail", e);
-        }
+    public void checkValidityOfXlsx_validXlsxNoLessons_success() throws ParseException {
+        XlsxUtil util = new XlsxUtil(VALID_XLSX_NO_LESSONS);
+        util.checkValidityOfXlsx();
     }
 
     @Test
@@ -148,7 +134,7 @@ public class XlsxUtilTest {
         private static final Student NEO_RUI_EN_MAYBELLINE =
             new StudentBuilder().withName("NEO RUI EN MAYBELLINE").withId("A0139345U").build();
 
-        public static Set<Student> getExpectedStudents() {
+        private static Set<Student> getExpectedStudents() {
             return new LinkedHashSet<>() {
                 {
                     add(AARON_TAN);
@@ -161,7 +147,7 @@ public class XlsxUtilTest {
             };
         }
 
-        public static Set<StudentInfo> getExpectedStudentsInfo() {
+        private static Set<StudentInfo> getExpectedStudentsInfo() {
             return new LinkedHashSet<>() {
                 {
                     add(new StudentInfo(AARON_TAN));
@@ -174,7 +160,7 @@ public class XlsxUtilTest {
             };
         }
 
-        public static Set<Lesson> getExpectedLessons() {
+        private static Set<Lesson> getExpectedLessons() {
             return new LinkedHashSet<>() {
                 {
                     UniqueList<StudentInfo> studentInfoList = new UniqueStudentInfoList();

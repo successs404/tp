@@ -40,7 +40,8 @@ public class Serenity implements ReadOnlySerenity {
 
     /**
      * Creates a {@code Serenity} using a List of Groups.
-     * @param groups
+     *
+     * @param groups The list of groups to be handled by {@code Serenity}.
      */
     public Serenity(List<Group> groups) {
 
@@ -86,7 +87,9 @@ public class Serenity implements ReadOnlySerenity {
     }
 
     /**
-     * Creates a Serenity object using the Groups in the {@code toBeCopied}.
+     *  Creates a Serenity object using the Groups in the {@code toBeCopied}.
+     *
+     * @param toBeCopied The Serenity object with Groups to be copied.
      */
     public Serenity(ReadOnlySerenity toBeCopied) {
 
@@ -158,6 +161,8 @@ public class Serenity implements ReadOnlySerenity {
 
     /**
      * Returns true if a group with the same identity as {@code group} exists in serenity.
+     *
+     * @param group The group to check.
      */
     public boolean hasGroup(Group group) {
         requireNonNull(group);

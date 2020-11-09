@@ -4,6 +4,14 @@ import static java.util.Objects.requireNonNull;
 import static team.serenity.logic.parser.CliSyntax.PREFIX_GRP;
 import static team.serenity.logic.parser.CliSyntax.PREFIX_PATH;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.apache.commons.collections4.CollectionUtils;
+
+import team.serenity.commons.util.CollectionUtil;
 import team.serenity.logic.commands.exceptions.CommandException;
 import team.serenity.model.Model;
 import team.serenity.model.group.Group;
@@ -36,37 +44,24 @@ public class AddGrpCommand extends Command {
      */
     public AddGrpCommand(Group group) {
         requireNonNull(group);
-        this.toAdd = group;
+        toAdd = group;
     }
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-
-        // Check if group name already exists in the group manager
-        if (model.hasGroupName(this.toAdd.getGroupName())) {
-            throw new CommandException(String.format(MESSAGE_DUPLICATE_GROUP_NAME_FORMAT,
-                    this.toAdd.getGroupName().groupName));
-        }
-
-        // Check if students in the new group already exist in the student manager
-        for (Student student : this.toAdd.getStudents()) {
-            if (model.hasStudent(student)) {
-                throw new CommandException(String.format(MESSAGE_DUPLICATE_STUDENT_FORMAT,
-                        student.getStudentName(), student.getStudentNo()));
-            }
-        }
-
-        model.addGroup(this.toAdd);
-        model.updateFilteredGroupList(new GroupContainsKeywordPredicate(this.toAdd.getGroupName().toString()));
-        return new CommandResult(String.format(MESSAGE_SUCCESS, this.toAdd), CommandResult.UiAction.ADD_GRP);
+        checkIfGroupNameExists(model, toAdd);
+        checkIfStudentsExist(model, toAdd);
+        model.addGroup(toAdd);
+        model.updateFilteredGroupList(new GroupContainsKeywordPredicate(toAdd.getGroupName().toString()));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd), CommandResult.UiAction.ADD_GRP);
     }
 
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
             || (other instanceof AddGrpCommand // instanceof handles nulls
-            && this.toAdd.equals(((AddGrpCommand) other).toAdd));
+            && toAdd.equals(((AddGrpCommand) other).toAdd));
     }
 
 }

@@ -33,12 +33,8 @@ public class DelGrpCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-
-        model.updateFilteredGroupList(this.grpPredicate);
-
-        if (model.getFilteredGroupList().isEmpty()) {
-            throw new CommandException(MESSAGE_GROUP_EMPTY);
-        }
+        model.updateFilteredGroupList(grpPredicate);
+        checkIfGroupIsEmpty(model);
         Group toDel = model.getFilteredGroupList().get(0);
         model.deleteGroup(toDel);
         return new CommandResult(String.format(MESSAGE_DELETE_GROUP_SUCCESS, toDel), CommandResult.UiAction.DEL_GRP);
@@ -48,6 +44,6 @@ public class DelGrpCommand extends Command {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
             || (other instanceof DelGrpCommand // instanceof handles nulls
-            && this.grpPredicate.equals(((DelGrpCommand) other).grpPredicate));
+            && grpPredicate.equals(((DelGrpCommand) other).grpPredicate));
     }
 }

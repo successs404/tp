@@ -31,19 +31,15 @@ public class DelGrpCommandTest {
     }
 
     @Test
-    void execute_containsGroup() {
-        try {
-            ModelStub modelStub = new DelGrpCommandTest.ModelStubWithGroup();
-            DelGrpCommand delGrpCommand = new DelGrpCommand(new GroupContainsKeywordPredicate("G01"));
-            CommandResult actual = delGrpCommand.execute(modelStub);
-            Group group = modelStub.getFilteredGroupList().get(0);
-            assertEquals(
-                String.format(MESSAGE_DELETE_GROUP_SUCCESS, group),
-                actual.getFeedbackToUser()
-            );
-        } catch (CommandException e) {
-            throw new AssertionError(MESSAGE_ASSERTION_ERROR_METHOD);
-        }
+    void execute_containsGroup() throws CommandException {
+        ModelStub modelStub = new DelGrpCommandTest.ModelStubWithGroup();
+        DelGrpCommand delGrpCommand = new DelGrpCommand(new GroupContainsKeywordPredicate("G01"));
+        CommandResult actual = delGrpCommand.execute(modelStub);
+        Group group = modelStub.getFilteredGroupList().get(0);
+        assertEquals(
+            String.format(MESSAGE_DELETE_GROUP_SUCCESS, group),
+            actual.getFeedbackToUser()
+        );
     }
 
     private static class ModelStubWithGroup extends ModelStub {

@@ -395,9 +395,7 @@ public class ModelManager implements Model {
         ObservableList<StudentInfo> studentInfoList =
                 new ArrayObservableList<>(new UniqueStudentInfoList().asUnmodifiableObservableList());
         for (Group group : getListOfGroups()) {
-            for (Lesson lesson : group.getLessons()) {
-                studentInfoList.addAll(lesson.getStudentsInfo().getList());
-            }
+            group.getLessons().stream().forEach(lesson -> studentInfoList.addAll(lesson.getStudentsInfo().getList()));
         }
         return studentInfoList;
     }

@@ -54,6 +54,8 @@ public class GroupBuilder {
 
     /**
      * Initializes the GroupBuilder with the data of {@code groupToCopy}.
+     *
+     * @param groupToCopy The tutorial group to make a copy of.
      */
     public GroupBuilder(Group groupToCopy) {
         name = groupToCopy.getGroupName();
@@ -62,7 +64,9 @@ public class GroupBuilder {
     }
 
     /**
-     * Initializes the GroupBuilder from the data inside the CSV file.
+     * Initializes the GroupBuilder from the data inside the XLSX file.
+     * @param name The tutorial group name.
+     * @param filePath The path to retrieve the XLSX file.
      */
     public GroupBuilder(String name, Path filePath) {
         this.name = new GroupName(name);
@@ -73,6 +77,9 @@ public class GroupBuilder {
 
     /**
      * Sets the {@code Name} of the {@code Group} that we are building.
+     *
+     * @param name The tutorial group name.
+     * @return A new GroupBuilder.
      */
     public GroupBuilder withName(String name) {
         this.name = new GroupName(name);
@@ -81,6 +88,9 @@ public class GroupBuilder {
 
     /**
      * Parses the {@code students} into a {@code Set<Student>} and set it to the {@code Group} that we are building.
+     *
+     * @param students The students to add into the group.
+     * @return A new GroupBuilder.
      */
     public GroupBuilder withStudents(Student... students) {
         this.students.setElementsWithList(Arrays.asList(students));
@@ -90,6 +100,9 @@ public class GroupBuilder {
 
     /**
      * Parses the {@code filePath} into a {@code Set<Student>} and set it to the {@code Group} that we are building.
+     *
+     * @param filePath The path to retrieve the XLSX file.
+     * @return A new GroupBuilder.
      */
     public GroupBuilder withFilePath(String filePath) {
         try {
@@ -104,6 +117,9 @@ public class GroupBuilder {
     /**
      * Creates and parses the {@code lessons} into a {@code Set<Lesson>} and set it to the {@code Group} that we are
      * building.
+     *
+     * @param lessons The lessons to add to the group.
+     * @return A new GroupBuilder.
      */
     public GroupBuilder withLessons(String... lessons) {
         UniqueList<StudentInfo> studentsInfo = new UniqueStudentInfoList();
@@ -116,6 +132,11 @@ public class GroupBuilder {
         return this;
     }
 
+    /**
+     * Builds a group.
+     *
+     * @return A new tutorial group.
+     */
     public Group build() {
         return new Group(this.name.toString(), this.students, this.lessons);
     }

@@ -4,8 +4,10 @@ import static java.util.Objects.requireNonNull;
 import static team.serenity.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import javafx.collections.FXCollections;
@@ -48,8 +50,6 @@ public class UniqueGroupList implements UniqueList<Group> {
         return this.internalList.size();
     }
 
-
-
     @Override
     public ObservableList<Group> getList() {
         return this.internalList;
@@ -64,10 +64,14 @@ public class UniqueGroupList implements UniqueList<Group> {
     @Override
     public void add(Group toAdd) throws DuplicateException {
         requireNonNull(toAdd);
+        verifyIfGroupExists(toAdd);
+        this.internalList.add(toAdd);
+    }
+
+    private void verifyIfGroupExists(Group toAdd) throws DuplicateException {
         if (contains(toAdd)) {
             throw new DuplicateGroupException();
         }
-        this.internalList.add(toAdd);
     }
 
     /**
@@ -153,14 +157,8 @@ public class UniqueGroupList implements UniqueList<Group> {
      */
     @Override
     public boolean elementsAreUnique(List<Group> groups) {
-        for (int i = 0; i < groups.size() - 1; i++) {
-            for (int j = i + 1; j < groups.size(); j++) {
-                if (groups.get(i).equals(groups.get(j))) {
-                    return false;
-                }
-            }
-        }
-        return true;
+        Set<Group> groupSet = new HashSet<>(groups);
+        return groupSet.size() == groups.size();
     }
 
 }

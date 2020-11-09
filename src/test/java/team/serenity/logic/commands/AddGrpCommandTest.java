@@ -42,9 +42,7 @@ class AddGrpCommandTest {
         Group validGroup = new GroupBuilder().build();
         ModelStubAcceptingGroupAdded modelStub = new ModelStubAcceptingGroupAdded();
         CommandResult commandResult = new AddGrpCommand(validGroup).execute(modelStub);
-
         String expectedMessage = String.format(AddGrpCommand.MESSAGE_SUCCESS, validGroup);
-
         assertEquals(expectedMessage, commandResult.getFeedbackToUser());
         assertEquals(Collections.singletonList(validGroup), modelStub.groupsAdded);
     }
@@ -54,10 +52,8 @@ class AddGrpCommandTest {
         Group validGroup = new GroupBuilder().build();
         ModelStub modelStub = new ModelStubWithGroup(validGroup);
         AddGrpCommand addGrpCommand = new AddGrpCommand(validGroup);
-
         String expectedMessage = String.format(MESSAGE_DUPLICATE_GROUP_NAME_FORMAT,
             validGroup.getGroupName().groupName);
-
         assertThrows(CommandException.class, expectedMessage, () -> addGrpCommand.execute(modelStub));
     }
 
@@ -67,10 +63,8 @@ class AddGrpCommandTest {
         ModelStub modelStub = new ModelStubWithGroup(validGroup);
         String expectedMessage = String.format(MESSAGE_DUPLICATE_STUDENT_FORMAT,
             AARON.getStudentName(), AARON.getStudentNo());
-
         Group invalidGroup = new GroupBuilder(validGroup).withName("G02").build();
         AddGrpCommand addGrpCommand = new AddGrpCommand(invalidGroup);
-
         assertThrows(CommandException.class, expectedMessage, () -> addGrpCommand.execute(modelStub));
     }
 
@@ -119,7 +113,7 @@ class AddGrpCommandTest {
 
         private final Group group;
 
-        ModelStubWithGroup(Group group) {
+        private ModelStubWithGroup(Group group) {
             requireNonNull(group);
             this.group = group;
         }
@@ -161,7 +155,7 @@ class AddGrpCommandTest {
      */
     private static class ModelStubAcceptingGroupAdded extends ModelStub {
 
-        final ArrayList<Group> groupsAdded = new ArrayList<>();
+        private final ArrayList<Group> groupsAdded = new ArrayList<>();
 
         @Override
         public ObservableList<Group> getFilteredGroupList() {

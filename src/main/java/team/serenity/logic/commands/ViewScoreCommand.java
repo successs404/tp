@@ -39,19 +39,17 @@ public class ViewScoreCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        model.updateFilteredGroupList(this.predicate);
-        if (model.getFilteredGroupList().isEmpty()) {
-            throw new CommandException(MESSAGE_GROUP_EMPTY);
-        }
+        model.updateFilteredGroupList(predicate);
+        checkIfGroupIsEmpty(model);
         model.updateFilteredLessonList(Model.PREDICATE_SHOW_ALL_LESSONS);
-        return new CommandResult(this.getMessage(model), CommandResult.UiAction.VIEW_SCORE);
+        return new CommandResult(getMessage(model), CommandResult.UiAction.VIEW_SCORE);
     }
 
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
             || (other instanceof ViewScoreCommand // instanceof handles nulls
-            && this.predicate.equals(((ViewScoreCommand) other).predicate)); // state check
+            && predicate.equals(((ViewScoreCommand) other).predicate)); // state check
     }
 
 }

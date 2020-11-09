@@ -2,6 +2,7 @@ package team.serenity.logic.commands.studentinfo;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static team.serenity.commons.core.Messages.MESSAGE_ASSERTION_ERROR_METHOD;
+import static team.serenity.commons.core.Messages.MESSAGE_GROUP_EMPTY;
 import static team.serenity.logic.commands.studentinfo.ExportAttCommand.MESSAGE_GROUP_DOES_NOT_EXIST;
 import static team.serenity.logic.commands.studentinfo.ExportAttCommand.MESSAGE_SUCCESS;
 import static team.serenity.testutil.Assert.assertThrows;
@@ -29,20 +30,16 @@ public class ExportAttCommandTest {
     void execute_noGroup() {
         ModelStub modelStub = new ExportAttCommandTest.ModelStubWithNoGroup();
         ExportAttCommand exportAttCommand = new ExportAttCommand(new GroupContainsKeywordPredicate("G01"));
-        assertThrows(CommandException.class, MESSAGE_GROUP_DOES_NOT_EXIST, () -> exportAttCommand.execute(modelStub));
+        assertThrows(CommandException.class, MESSAGE_GROUP_EMPTY, () -> exportAttCommand.execute(modelStub));
     }
 
     @Test
-    void execute_containsGroup() {
-        try {
-            ModelStub modelStub = new ExportAttCommandTest.ModelStubWithGroup();
-            ExportAttCommand exportAttCommand = new ExportAttCommand(new GroupContainsKeywordPredicate("G01"));
-            CommandResult actual = exportAttCommand.execute(modelStub);
-            GroupName groupName = modelStub.getFilteredGroupList().get(0).getGroupName();
-            assertEquals(String.format(MESSAGE_SUCCESS, groupName, groupName), actual.getFeedbackToUser());
-        } catch (CommandException e) {
-            throw new AssertionError(MESSAGE_ASSERTION_ERROR_METHOD);
-        }
+    void execute_containsGroup() throws CommandException {
+        ModelStub modelStub = new ExportAttCommandTest.ModelStubWithGroup();
+        ExportAttCommand exportAttCommand = new ExportAttCommand(new GroupContainsKeywordPredicate("G01"));
+        CommandResult actual = exportAttCommand.execute(modelStub);
+        GroupName groupName = modelStub.getFilteredGroupList().get(0).getGroupName();
+        assertEquals(String.format(MESSAGE_SUCCESS, groupName, groupName), actual.getFeedbackToUser());
     }
 
     private static class ModelStubWithGroup extends ModelStub {

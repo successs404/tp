@@ -31,17 +31,13 @@ public class ViewAttCommandTest {
     }
 
     @Test
-    void execute_containsGroup() {
-        try {
-            ModelStub modelStub = new ModelStubWithGroup();
-            ViewAttCommand viewAttCommand = new ViewAttCommand(new GroupContainsKeywordPredicate("G01"));
-            CommandResult actual = viewAttCommand.execute(modelStub);
-            assertEquals(
-                String.format(MESSAGE_ATTENDANCE_LISTED_OVERVIEW,
-                modelStub.getFilteredGroupList().get(0).getGroupName()), actual.getFeedbackToUser());
-        } catch (CommandException e) {
-            throw new AssertionError(MESSAGE_ASSERTION_ERROR_METHOD, e);
-        }
+    void execute_containsGroup() throws CommandException {
+        ModelStub modelStub = new ModelStubWithGroup();
+        ViewAttCommand viewAttCommand = new ViewAttCommand(new GroupContainsKeywordPredicate("G01"));
+        CommandResult actual = viewAttCommand.execute(modelStub);
+        assertEquals(
+            String.format(MESSAGE_ATTENDANCE_LISTED_OVERVIEW,
+            modelStub.getFilteredGroupList().get(0).getGroupName()), actual.getFeedbackToUser());
     }
 
     private static class ModelStubWithGroup extends ModelStub {
