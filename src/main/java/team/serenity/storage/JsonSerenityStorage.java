@@ -43,8 +43,10 @@ public class JsonSerenityStorage implements SerenityStorage {
     /**
      * Similar to {@link #readSerenity()}.
      *
-     * @param filePath location of the data. Cannot be null.
-     * @throws DataConversionException if the file is not in the correct format.
+     * @param filePath The location of the data. Cannot be null.
+     * @return An optional ReadOnlySerenity.
+     * @throws IllegalValueException Thrown if the value is invalid.
+     * @throws DataConversionException Thrown if the file is not in the correct format.
      */
     public Optional<ReadOnlySerenity> readSerenity(Path filePath)
         throws IllegalValueException, DataConversionException {
@@ -67,18 +69,17 @@ public class JsonSerenityStorage implements SerenityStorage {
         }
     }
 
-
-
     @Override
     public void saveSerenity(ReadOnlyGroupManager groupManager) throws IOException {
         this.saveSerenity(groupManager, this.filePath);
     }
 
-
-
     /**
-     * Saves group to storage
-     * @throws IOException
+     * Saves group to storage.
+     *
+     * @param groupManager The group manager involved.
+     * @param filePath The path to save the JSON file to.
+     * @throws IOException Thrown if there is an input/output error.
      */
     public void saveSerenity(ReadOnlyGroupManager groupManager, Path filePath) throws IOException {
         try {

@@ -50,6 +50,9 @@ public class GroupDataPanel extends DataPanel {
 
     /**
      * Constructor for panel to display tutorial group data.
+     *
+     * @param lessonList The observable list of Lessons.
+     * @param studentList The observable list of Students.
      */
     public GroupDataPanel(ObservableList<Lesson> lessonList, ObservableList<Student> studentList) {
         super(FXML);
@@ -139,14 +142,7 @@ public class GroupDataPanel extends DataPanel {
         participationTableView.refresh();
     }
 
-    /**
-     * refresh table everytime a change is done to group / lesson
-     */
-    public void refreshTables(ObservableList<Lesson> lessonList, ObservableList<Student> studentList) {
-        populateTable(lessonList, studentList);
-    }
-
-    class LessonListViewCell extends ListCell<Lesson> {
+    private static class LessonListViewCell extends ListCell<Lesson> {
 
         @Override
         protected void updateItem(Lesson lesson, boolean empty) {
@@ -161,7 +157,7 @@ public class GroupDataPanel extends DataPanel {
         }
     }
 
-    class StudentListViewCell extends ListCell<Student> {
+    private static class StudentListViewCell extends ListCell<Student> {
 
         @Override
         protected void updateItem(Student student, boolean empty) {

@@ -28,8 +28,8 @@ public class GroupManager implements ReadOnlyGroupManager {
     }
 
     /**
-     * Creates a GroupManager using the Group in the {@code toBeCopied}
-     * @param toBeCopied
+     * Creates a GroupManager using the Group in the {@code toBeCopied}.
+     * @param toBeCopied The GroupManager involved.
      */
     public GroupManager(ReadOnlyGroupManager toBeCopied) {
         this.listOfGroups = new UniqueGroupList();
@@ -137,7 +137,7 @@ public class GroupManager implements ReadOnlyGroupManager {
     /**
      * Deletes a specified {@code Group} from the list.
      *
-     * @param group
+     * @param group The group to delete.
      */
     public void deleteGroup(Group group) {
         requireNonNull(group);

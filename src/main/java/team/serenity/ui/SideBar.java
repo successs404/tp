@@ -28,6 +28,7 @@ public class SideBar extends UiPart<ScrollPane> {
 
     /**
      * Adds a new button to SideBar.
+     *
      * @param button Button to be added.
      */
     public void addButton(Button button) {
@@ -36,12 +37,18 @@ public class SideBar extends UiPart<ScrollPane> {
 
     /**
      * Deletes an existing button from SideBar.
+     *
      * @param buttonNode Node of the button to be deleted
      */
     public void deleteButton(Node buttonNode) {
         this.buttonBar.getChildren().remove(buttonNode);
     }
 
+    /**
+     * Retrieves the buttons stored inside the SideBar.
+     *
+     * @return The list of buttons stored inside the SideBar.
+     */
     public List<Node> getButtons() {
         return this.buttonBar.getChildren();
     }

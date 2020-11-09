@@ -32,6 +32,7 @@ public class TitleDisplay extends UiPart<Region> {
 
     /**
      * Display the title of the group which the user is currently viewing.
+     *
      * @param groupName The title of the group.
      */
     public void setGroupTitle(String groupName) {
@@ -42,6 +43,7 @@ public class TitleDisplay extends UiPart<Region> {
     /**
      * Display the title of the lesson which the user is currently viewing.
      * Displays the title of the group which the lesson belongs to as well.
+     *
      * @param groupName The title of the group.
      * @param lessonName The title of the lesson.
      */

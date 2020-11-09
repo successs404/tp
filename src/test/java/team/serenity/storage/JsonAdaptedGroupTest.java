@@ -46,11 +46,11 @@ class JsonAdaptedGroupTest {
         JsonAdaptedGroup invalidGroupTwo = new JsonAdaptedGroup(INVALID_NAME_EXTRA_DIGITS, new ArrayList<>());
         JsonAdaptedGroup invalidGroupThree = new JsonAdaptedGroup(INVALID_NAME_MULTIPLE_STRINGS, new ArrayList<>());
         JsonAdaptedGroup invalidGroupFour = new JsonAdaptedGroup(INVALID_NAME_SPACE, new ArrayList<>());
-        assertThrows(IllegalValueException.class, () -> nullGroupName.toModelType());
-        assertThrows(IllegalValueException.class, () -> invalidGroup.toModelType());
-        assertThrows(IllegalValueException.class, () -> invalidGroupTwo.toModelType());
-        assertThrows(IllegalValueException.class, () -> invalidGroupThree.toModelType());
-        assertThrows(IllegalValueException.class, () -> invalidGroupFour.toModelType());
+        assertThrows(IllegalValueException.class, nullGroupName::toModelType);
+        assertThrows(IllegalValueException.class, invalidGroup::toModelType);
+        assertThrows(IllegalValueException.class, invalidGroupTwo::toModelType);
+        assertThrows(IllegalValueException.class, invalidGroupThree::toModelType);
+        assertThrows(IllegalValueException.class, invalidGroupFour::toModelType);
     }
 
     @Test

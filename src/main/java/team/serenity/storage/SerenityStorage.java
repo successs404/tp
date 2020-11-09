@@ -18,29 +18,36 @@ public interface SerenityStorage {
 
     /**
      * Returns the file path of the data file.
+     *
+     * @return The file path of the data file.
      */
-
     Path getSerenityFilePath();
 
     /**
-     * Returns Serenity data as a {@link ReadOnlySerenity}.
-     * Returns {@code Optional.empty()} if storage file is not found.
+     * Reads Serenity data.
      *
-     * @throws DataConversionException if the data in storage is not in the expected format.
-     * @throws IOException             if there was any problem when reading from the storage.
+     * @return Returns Serenity data as ReadOnlySerenity, and returns Optional.empty if storage file is not found.
+     * @throws IllegalValueException Thrown if the value is invalid.
+     * @throws DataConversionException Thrown if the data in storage is not in the expected format.
      */
     Optional<ReadOnlySerenity> readSerenity() throws IllegalValueException, DataConversionException;
 
     /**
      * @see #getSerenityFilePath()
+     *
+     * @param filePath The file path of the data file.
+     * @return An optional ReadOnlySerenity object.
+     * @throws IllegalValueException Thrown if the value is invalid.
+     * @throws DataConversionException Thrown if the data in storage is not in the expected format.
      */
-    Optional<ReadOnlySerenity> readSerenity(Path filePath)
-        throws IllegalValueException, DataConversionException;
+    Optional<ReadOnlySerenity> readSerenity(Path filePath) throws IllegalValueException, DataConversionException;
 
     /**
      * Saves Serenity with the given {@code ReadOnlyGroupManager}
+     *
+     * @param manager The ReadOnlyGroupManager involved.
+     * @throws IOException Thrown if there is an input/output error.
      */
     void saveSerenity(ReadOnlyGroupManager manager) throws IOException;
-
 
 }

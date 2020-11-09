@@ -21,7 +21,10 @@ class JsonAdaptedStudent {
     private final String studentNo;
 
     /**
-     * Constructs a {@code JsonAdaptedStudent} with the given {@code name} and {@ocde studentNumber}.
+     * Constructs a {@code JsonAdaptedStudent} with the given {@code name} and {@code studentNumber}.
+     *
+     * @param name The name of the student.
+     * @param number The matriculation number of the student.
      */
     @JsonCreator
     public JsonAdaptedStudent(@JsonProperty("name") String name, @JsonProperty("studentNo") String number) {
@@ -31,6 +34,8 @@ class JsonAdaptedStudent {
 
     /**
      * Converts a given {@code Student} into this class for Jackson use.
+     *
+     * @param source The student to manage.
      */
     public JsonAdaptedStudent(Student source) {
         requireNonNull(source);
@@ -42,7 +47,8 @@ class JsonAdaptedStudent {
     /**
      * Converts this Jackson-friendly adapted student object into the model's {@code Student} object.
      *
-     * @throws IllegalValueException if there were any data constraints violated in the adapted student.
+     * @return A new student object.
+     * @throws IllegalValueException Thrown if there were any data constraints violated in the adapted student.
      */
     public Student toModelType() throws IllegalValueException {
 

@@ -8,6 +8,7 @@ import static team.serenity.commons.util.CollectionUtil.requireAllNonNull;
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
 public class Student {
+
     public static final String STUDENT_NAME_ERROR = "Name cannot be empty";
     public static final String STUDENT_ID_ERROR = "Student no cannot be empty "
         + "and must follow the format 'AXXXXXXXX' "
@@ -31,6 +32,7 @@ public class Student {
 
     /**
      * Constructs a {@code Student}.
+     *
      * @param name A valid student name.
      * @param number A valid student number.
      */
@@ -40,6 +42,12 @@ public class Student {
         this.studentNo = number;
     }
 
+    /**
+     * Returns whether the StudentName is valid.
+     *
+     * @param s The StudentName to check.
+     * @return Whether the StudentName is valid.
+     */
     public static boolean isValidName(String s) {
         return StudentName.isValidName(s);
     }
@@ -53,10 +61,20 @@ public class Student {
         return StudentNumber.isValidName(s);
     }
 
+    /**
+     * Returns the StudentName.
+     *
+     * @return The name of the student.
+     */
     public StudentName getStudentName() {
         return this.studentName;
     }
 
+    /**
+     * Returns the StudentNo.
+     *
+     * @return The matriculation number of the student.
+     */
     public StudentNumber getStudentNo() {
         return this.studentNo;
     }
@@ -64,6 +82,9 @@ public class Student {
     /**
      * Returns true if both student have the same student number.
      * This defines a weaker notion of equality between two students.
+     *
+     * @param other The other student to compare with.
+     * @return Whether the student is the same.
      */
     public boolean isSameStudent(Student other) {
         return this.studentNo.equals(other.studentNo);

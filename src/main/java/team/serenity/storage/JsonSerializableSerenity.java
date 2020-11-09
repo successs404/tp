@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
 import team.serenity.commons.exceptions.IllegalValueException;
@@ -13,7 +11,6 @@ import team.serenity.model.group.Group;
 import team.serenity.model.group.UniqueGroupList;
 import team.serenity.model.group.exceptions.DuplicateException;
 import team.serenity.model.managers.ReadOnlyGroupManager;
-import team.serenity.model.managers.ReadOnlySerenity;
 import team.serenity.model.managers.Serenity;
 import team.serenity.model.util.UniqueList;
 
@@ -23,29 +20,13 @@ import team.serenity.model.util.UniqueList;
 @JsonRootName(value = "serenity")
 class JsonSerializableSerenity {
 
-    public static final String MESSAGE_DUPLICATE_PERSON =
-        "Group list contains duplicate person(s).";
-
     private final List<JsonAdaptedGroup> groups = new ArrayList<>();
 
     /**
-     * Constructs a {@code JsonSerializableSerenity} with the given groups.
-     */
-    @JsonCreator
-    public JsonSerializableSerenity(@JsonProperty("groups") List<JsonAdaptedGroup> groups) {
-        this.groups.addAll(groups);
-    }
-
-    /**
-     * Converts a given {@code ReadOnlySerenity} into this class for Jackson use.
+     * Creates a new JsonSerializableSerenity object.
      *
-     * @param source future changes to this will not affect the created {@code JsonSerializableSerenity}.
+     * @param manager The ReadOnlyGroupManager involved.
      */
-    public JsonSerializableSerenity(ReadOnlySerenity source) {
-        this.groups.addAll(
-            source.getGroupList().stream().map(JsonAdaptedGroup::new).collect(Collectors.toList()));
-    }
-
     public JsonSerializableSerenity(ReadOnlyGroupManager manager) {
         this.groups.addAll(manager.getListOfGroups().stream().map(JsonAdaptedGroup::new).collect(Collectors.toList()));
     }
@@ -53,7 +34,9 @@ class JsonSerializableSerenity {
     /**
      * Converts this serenity object into the model's {@code Serenity} object.
      *
-     * @throws IllegalValueException if there were any data constraints violated.
+     * @return A new Serenity object containing the groups from the JSON file.
+     * @throws IllegalValueException Thrown if there are any data constraints violated.
+     * @throws DuplicateException Thrown if there are any duplicates.
      */
     public Serenity toModelType() throws IllegalValueException, DuplicateException {
         UniqueList<Group> groups = new UniqueGroupList();
@@ -61,7 +44,6 @@ class JsonSerializableSerenity {
             Group group = jsonAdaptedGroup.toModelType();
             groups.add(group);
         }
-        Serenity serenity = new Serenity(groups.asUnmodifiableObservableList());
-        return serenity;
+        return new Serenity(groups.asUnmodifiableObservableList());
     }
 }

@@ -2,7 +2,6 @@ package team.serenity.testutil;
 
 import java.nio.file.Path;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 import javafx.collections.ObservableList;
 import team.serenity.commons.core.GuiSettings;
@@ -28,11 +27,6 @@ public class ModelStub implements Model {
 
     @Override
     public boolean isEmpty() {
-        throw new AssertionError("This method should not be called.");
-    }
-
-    @Override
-    public Stream<Group> getGroupStream() {
         throw new AssertionError("This method should not be called.");
     }
 
@@ -127,11 +121,6 @@ public class ModelStub implements Model {
     }
 
     @Override
-    public UniqueList<Lesson> getListOfLessonsFromGroup(Group group) {
-        throw new AssertionError("This method should not be called.");
-    }
-
-    @Override
     public boolean ifTargetGroupHasLessonName(GroupName groupName, LessonName lessonName) {
         throw new AssertionError("This method should not be called.");
     }
@@ -157,11 +146,6 @@ public class ModelStub implements Model {
     }
 
     @Override
-    public UniqueList<Student> getListOfStudentsFromGroup(Group group) {
-        throw new AssertionError("This method should not be called.");
-    }
-
-    @Override
     public boolean hasStudent(Student toCheck) {
         throw new AssertionError("This method should not be called.");
     }
@@ -182,17 +166,7 @@ public class ModelStub implements Model {
     }
 
     @Override
-    public boolean checkIfStudentExistsInGroup(Group group, Student student) {
-        throw new AssertionError("This method should not be called.");
-    }
-
-    @Override
     public ObservableList<StudentInfo> getStudentsInfoList() {
-        throw new AssertionError("This method should not be called.");
-    }
-
-    @Override
-    public UniqueList<StudentInfo> getListOfStudentsInfoFromGroupAndLesson(Group group, Lesson lesson) {
         throw new AssertionError("This method should not be called.");
     }
 

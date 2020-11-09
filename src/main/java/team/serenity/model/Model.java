@@ -2,7 +2,6 @@ package team.serenity.model;
 
 import java.nio.file.Path;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 import javafx.collections.ObservableList;
 import team.serenity.commons.core.GuiSettings;
@@ -44,6 +43,7 @@ public interface Model {
 
     /**
      * Replaces user prefs data with the data in {@code userPrefs}.
+     * @param userPrefs The user prefs data.
      */
     void setUserPrefs(ReadOnlyUserPrefs userPrefs);
 
@@ -59,6 +59,8 @@ public interface Model {
 
     /**
      * Sets the user prefs' GUI settings.
+     *
+     * @param guiSettings The gui settings involved.
      */
     void setGuiSettings(GuiSettings guiSettings);
 
@@ -89,34 +91,37 @@ public interface Model {
     ObservableList<Group> getListOfGroups();
 
     /**
-     * Get stream of groups
-     * @return Stream of groups
-     */
-    Stream<Group> getGroupStream();
-
-    /**
      * Returns true if at least one group exists in serenity.
-     * @return whether any group exists
+     *
+     * @return Whether any group exists.
      */
     boolean isEmpty();
 
     /**
      * Deletes the given group. The group must exist in serenity.
+     *
+     * @param target The group to delete.
      */
     void deleteGroup(Group target);
 
     /**
      * Adds the given group. {@code group} must not already exist in serenity.
+     *
+     * @param group The group to add.
      */
     void addGroup(Group group);
 
     /**
      * Exports attendance data of the given group as XLSX file.
+     *
+     * @param group The group to export attendance.
      */
     void exportAttendance(Group group);
 
     /**
      * Exports participation data of the given group as XLSX file.
+     *
+     * @param group The group to export participation score.
      */
     void exportParticipation(Group group);
 
@@ -132,12 +137,14 @@ public interface Model {
     /**
      * Updates the filter of the filtered group list to filter by the given {@code predicate}.
      *
-     * @throws NullPointerException if {@code predicate} is null.
+     * @param predicate The group predicate.
      */
     void updateFilteredGroupList(Predicate<Group> predicate);
 
     /**
      * Get all student info objects from all groups.
+     *
+     * @return The observable list of StudentInfo.
      */
     ObservableList<StudentInfo> getAllStudentInfo();
 
@@ -145,15 +152,17 @@ public interface Model {
 
     /**
      * Returns an unmodifiable view of the lesson list.
+     *
+     * @return The observable list of Lessons.
      */
     ObservableList<Lesson> getLessonList();
 
     /**
      * Returns an unmodifiable view of the filtered lesson list.
+     *
+     * @return The observable list of Lessons.
      */
     ObservableList<Lesson> getFilteredLessonList();
-
-    UniqueList<Lesson> getListOfLessonsFromGroup(Group group);
 
     /**
      * Returns true if a lesson with {@code LessonName} in group {@code GroupName}
@@ -167,6 +176,9 @@ public interface Model {
 
     /**
      * Deletes the given group's lesson. The group's lesson must exist in serenity.
+     *
+     * @param targetGroup The group containing the lesson to delete.
+     * @param targetLesson The lesson to delete.
      */
     void deleteLesson(Group targetGroup, Lesson targetLesson);
 
@@ -178,7 +190,7 @@ public interface Model {
     /**
      * Updates the filter of the filtered lesson list to filter by the given {@code predicate}.
      *
-     * @throws NullPointerException if {@code predicate} is null.
+     * @param predicate The lesson predicate.
      */
     void updateFilteredLessonList(Predicate<Lesson> predicate);
 
@@ -186,10 +198,10 @@ public interface Model {
 
     /**
      * Returns an unmodifiable view of the student list.
+     *
+     * @return The observable list of Students.
      */
     ObservableList<Student> getStudentList();
-
-    UniqueList<Student> getListOfStudentsFromGroup(Group group);
 
     /**
      * Returns true if a question that is the same as {@code toCheck} exists in the
@@ -202,11 +214,17 @@ public interface Model {
 
     /**
      * Removes a Student from a Group.
+     *
+     * @param student The student to delete.
+     * @param predicate The group predicate.
      */
     void deleteStudentFromGroup(Student student, Predicate<Group> predicate);
 
     /**
      * Adds a Student to a Group
+     *
+     * @param student The student to add.
+     * @param predicate The group predicate.
      */
     void addStudentToGroup(Student student, Predicate<Group> predicate);
 
@@ -215,25 +233,20 @@ public interface Model {
      */
     void updateStudentsList();
 
-    /**
-     * Checks if Student exists.
-     * @param group
-     * @param student
-     * @return Whether student exists.
-     */
-    boolean checkIfStudentExistsInGroup(Group group, Student student);
-
     // ========== StudentInfoManager ==========
 
     /**
      * Returns an unmodifiable view of the student info list
+     *
+     * @return The observable list of StudentInfos.
      */
     ObservableList<StudentInfo> getStudentsInfoList();
 
-    UniqueList<StudentInfo> getListOfStudentsInfoFromGroupAndLesson(Group group, Lesson lesson);
-
     /**
      * Returns an unmodifiable view of the student info list from the specified {@code GroupLessonKey}.
+     *
+     * @param key The GroupLessonKey.
+     * @return The observable list of StudentInfos.
      */
     ObservableList<StudentInfo> getObservableListOfStudentsInfoFromKey(GroupLessonKey key);
 
@@ -252,12 +265,16 @@ public interface Model {
     // ========== QuestionManager ==========
 
     /**
-     * Returns the questionManager
+     * Returns the questionManager.
+     *
+     * @return The QuestionManager.
      */
     ReadOnlyQuestionManager getQuestionManager();
 
     /**
      * Replaces questionManager data with the data in {@code questionManager}.
+     *
+     * @param questionManager The ReadOnlyQuestionManager.
      */
     void setQuestionManager(ReadOnlyQuestionManager questionManager);
 
@@ -298,6 +315,8 @@ public interface Model {
 
     /**
      * Returns an unmodifiable view of the filtered question list
+     *
+     * @return The observable list of Questions.
      */
     ObservableList<Question> getFilteredQuestionList();
 
@@ -305,9 +324,7 @@ public interface Model {
      * Updates the filter of the filtered question list to filter by the given {@code predicate}.
      *
      * @param predicate the given predicate.
-     * @throws NullPointerException if {@code predicate} is null.
      */
-
     void updateFilteredQuestionList(Predicate<Question> predicate);
 
 }

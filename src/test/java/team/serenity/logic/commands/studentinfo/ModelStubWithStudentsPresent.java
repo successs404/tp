@@ -52,15 +52,6 @@ class ModelStubWithStudentsPresent extends ModelStub {
     }
 
     @Override
-    public UniqueList<StudentInfo> getListOfStudentsInfoFromGroupAndLesson(Group group, Lesson lesson) {
-        GroupLessonKey key = new GroupLessonKey(group.getGroupName(), lesson.getLessonName());
-        GroupLessonKey mapKey = new GroupLessonKey(uniqueGroup.getGroupName(), uniqueLesson.getLessonName());
-        Map<GroupLessonKey, UniqueList<StudentInfo>> uniqueStudentInfoList = new HashMap<>();
-        uniqueStudentInfoList.put(mapKey, uniqueLesson.getStudentsInfo());
-        return uniqueStudentInfoList.get(key);
-    }
-
-    @Override
     public ObservableList<StudentInfo> getObservableListOfStudentsInfoFromKey(GroupLessonKey key) {
         GroupLessonKey mapKey = new GroupLessonKey(uniqueGroup.getGroupName(), uniqueLesson.getLessonName());
         Map<GroupLessonKey, UniqueList<StudentInfo>> uniqueStudentInfoList = new HashMap<>();

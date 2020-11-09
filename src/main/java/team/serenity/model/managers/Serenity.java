@@ -157,37 +157,6 @@ public class Serenity implements ReadOnlySerenity {
         return this.studentInfoManager;
     }
 
-    //// group-level operations
-
-    /**
-     * Returns true if a group with the same identity as {@code group} exists in serenity.
-     *
-     * @param group The group to check.
-     */
-    public boolean hasGroup(Group group) {
-        requireNonNull(group);
-        return this.groups.contains(group);
-    }
-
-
-    /**
-     * Replaces the given group {@code group} in the list with {@code editedGroup}. {@code target} must exist in
-     * serenity. The group identity of {@code editedGroup} must not be the same as another existing group in serenity.
-     */
-    public void setGroup(Group target, Group editedGroup) {
-        requireNonNull(editedGroup);
-        this.groups.setElement(target, editedGroup);
-    }
-
-    /**
-     * Removes {@code key} from this {@code Serenity}. {@code key} must exist in serenity.
-     */
-    public void deleteGroup(Group key) {
-        this.groups.remove(key);
-    }
-
-    //// util methods
-
     @Override
     public String toString() {
         return this.groups.asUnmodifiableObservableList().size() + " groups";

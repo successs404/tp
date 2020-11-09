@@ -1,7 +1,7 @@
 package team.serenity.model.group;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static team.serenity.testutil.Assert.assertThrows;
 
 import java.util.List;
@@ -21,35 +21,35 @@ class GroupTest {
     @Test
     public void constructor_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> new Group((GroupName) null, null));
-        assertThrows(NullPointerException.class, () -> new Group((String) null, (String) null));
-        assertThrows(NullPointerException.class, () -> new Group((String) null, (UniqueList<Student>) null));
-        assertThrows(NullPointerException.class, () -> new Group((String) null, (UniqueList<Student>) null, null));
-        assertThrows(NullPointerException.class, () -> new Group((GroupName) null, (UniqueList<Student>) null, null));
+        assertThrows(NullPointerException.class, () -> new Group(null, (String) null));
+        assertThrows(NullPointerException.class, () -> new Group(null, (UniqueList<Student>) null));
+        assertThrows(NullPointerException.class, () -> new Group((String) null, null, null));
+        assertThrows(NullPointerException.class, () -> new Group((GroupName) null, null, null));
     }
 
     @Test
     void getName() {
         GroupName expectedGroup = new GroupName("G01");
-        assertTrue(new Group("G01", new UniqueStudentList(),
-            new UniqueLessonList()).getGroupName().equals(expectedGroup)); //same
+        assertEquals(new Group("G01", new UniqueStudentList(),
+            new UniqueLessonList()).getGroupName(), expectedGroup); //same
     }
 
     @Test
     void getStudents() {
         UniqueList<Student> students = new UniqueStudentList();
         List<Student> expectedList = students.asUnmodifiableObservableList();
-        assertTrue(new Group("G01", students, new UniqueLessonList()).getStudents().equals(students));
-        assertTrue(new Group("G01", students, new UniqueLessonList())
-            .getStudentsAsUnmodifiableObservableList().equals(expectedList));
+        assertEquals(new Group("G01", students, new UniqueLessonList()).getStudents(), students);
+        assertEquals(new Group("G01", students, new UniqueLessonList())
+            .getStudentsAsUnmodifiableObservableList(), expectedList);
     }
 
     @Test
     void getLessons() {
         UniqueList<Lesson> lessons = new UniqueLessonList();
         List<Lesson> expectedList = lessons.asUnmodifiableObservableList();
-        assertTrue(new Group("G01", new UniqueStudentList(), lessons).getLessons().equals(lessons));
-        assertTrue(new Group("G01", new UniqueStudentList(), lessons)
-            .getLessonsAsUnmodifiableObservableList().equals(expectedList));
+        assertEquals(new Group("G01", new UniqueStudentList(), lessons).getLessons(), lessons);
+        assertEquals(new Group("G01", new UniqueStudentList(), lessons)
+            .getLessonsAsUnmodifiableObservableList(), expectedList);
     }
 
     @Test
@@ -74,12 +74,12 @@ class GroupTest {
         Group differentName = new Group("G02", students,
             lessons);
 
-        assertTrue(group.equals(group)); //same object
-        assertTrue(group.equals(sameGroup)); //different object, same contents
+        assertEquals(group, group); //same object
+        assertEquals(group, sameGroup); //different object, same contents
 
         //assertFalse(group.equals(differentLessonList)); //same group name, different lesson list
-        assertFalse(group.equals(differentStudentList)); //same group name, different student list
-        assertFalse(group.equals(differentName)); //different group name
+        assertNotEquals(group, differentStudentList); //same group name, different student list
+        assertNotEquals(group, differentName); //different group name
     }
 
     @Test
@@ -87,7 +87,7 @@ class GroupTest {
         GroupName expectedGroup = new GroupName("G01");
         Group group = new Group("G01", new UniqueStudentList(),
             new UniqueLessonList());
-        assertTrue(group.hashCode() == (expectedGroup.hashCode()));
+        assertEquals(group.hashCode(), (expectedGroup.hashCode()));
     }
 
     @Test
@@ -97,6 +97,6 @@ class GroupTest {
             new UniqueStudentList(),
             new UniqueLessonList());
         String expectedValue = String.format("Group %s", expectedGroup);
-        assertTrue(group.toString().equals(expectedValue));
+        assertEquals(group.toString(), expectedValue);
     }
 }

@@ -7,7 +7,6 @@ import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
-import java.util.stream.Stream;
 
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -175,11 +174,6 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public Stream<Group> getGroupStream() {
-        return this.groupManager.getStream();
-    }
-
-    @Override
     public boolean hasGroupName(GroupName toCheck) {
         return this.groupManager.hasGroupName(toCheck);
     }
@@ -259,11 +253,6 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public UniqueList<Lesson> getListOfLessonsFromGroup(Group group) {
-        return this.lessonManager.getListOfLessonsFromGroup(group.getGroupName());
-    }
-
-    @Override
     public boolean ifTargetGroupHasLessonName(GroupName groupName, LessonName lessonName) {
         return this.lessonManager.ifTargetGroupHasLessonName(groupName, lessonName);
     }
@@ -300,11 +289,6 @@ public class ModelManager implements Model {
     @Override
     public ObservableList<Student> getStudentList() {
         return this.students;
-    }
-
-    @Override
-    public UniqueList<Student> getListOfStudentsFromGroup(Group group) {
-        return this.studentManager.getListOfStudentsFromGroup(group.getGroupName());
     }
 
     @Override
@@ -346,22 +330,11 @@ public class ModelManager implements Model {
         }
     }
 
-    @Override
-    public boolean checkIfStudentExistsInGroup(Group group, Student student) {
-        return this.studentManager.checkIfStudentExistsInGroup(group.getGroupName(), student);
-    }
-
     // ========== StudentInfoManager ==========
 
     @Override
     public ObservableList<StudentInfo> getStudentsInfoList() {
         return this.studentsInfo;
-    }
-
-    @Override
-    public UniqueList<StudentInfo> getListOfStudentsInfoFromGroupAndLesson(Group group, Lesson lesson) {
-        GroupLessonKey key = new GroupLessonKey(group.getGroupName(), lesson.getLessonName());
-        return this.studentInfoManager.getListOfStudentsInfoFromGroupLessonKey(key);
     }
 
     @Override

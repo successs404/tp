@@ -31,6 +31,8 @@ class JsonAdaptedGroup {
 
     /**
      * Converts a given {@code Group} into this class for Jackson use.
+     *
+     * @param source Group to handle.
      */
     public JsonAdaptedGroup(Group source) {
         requireNonNull(source);
@@ -53,7 +55,8 @@ class JsonAdaptedGroup {
     /**
      * Converts this Jackson-friendly adapted group object into the model's {@code Group} object.
      *
-     * @throws IllegalValueException if there were any data constraints violated in the adapted group.
+     * @return A tutorial group.
+     * @throws IllegalValueException Thrown if there were any data constraints violated in the adapted group.
      */
     public Group toModelType() throws IllegalValueException {
 
@@ -62,21 +65,10 @@ class JsonAdaptedGroup {
                 GroupName.class.getSimpleName()));
         }
 
-        if (this.students == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
-                UniqueStudentList.class.getSimpleName()));
-        }
-
-        if (this.lessons == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
-                UniqueLessonList.class.getSimpleName()));
-        }
-
         if (!GroupName.isValidName(this.groupName)) {
             throw new IllegalValueException(GroupName.MESSAGE_CONSTRAINTS);
         }
 
-        String modelName = this.groupName;
         final List<Student> groupStudents = new ArrayList<>();
 
         for (JsonAdaptedStudent student : this.students) {
@@ -96,7 +88,7 @@ class JsonAdaptedGroup {
         final UniqueList<Lesson> modelLessons = new UniqueLessonList();
         modelLessons.setElementsWithList(new ArrayList<>(groupLessons));
 
-        return new Group(modelName, modelStudents, modelLessons);
+        return new Group(this.groupName, modelStudents, modelLessons);
     }
 
 }

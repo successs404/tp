@@ -29,6 +29,9 @@ class JsonAdaptedLesson {
 
     /**
      * Constructs a {@code JsonAdaptedLesson} with the given {@code name}.
+     *
+     * @param name The lesson name.
+     * @param studentInfos The studentinfos that the lesson is managing.
      */
     @JsonCreator
     public JsonAdaptedLesson(@JsonProperty("name") String name,
@@ -39,6 +42,8 @@ class JsonAdaptedLesson {
 
     /**
      * Converts a given {@code Lesson} into this Lesson for Jackson use.
+     *
+     * @param source The lesson to manage.
      */
     public JsonAdaptedLesson(Lesson source) {
         requireNonNull(source);
@@ -52,16 +57,13 @@ class JsonAdaptedLesson {
     /**
      * Converts this Jackson-friendly adapted Lesson object into the model's {@code Lesson} object.
      *
-     * @throws IllegalValueException if there were any data constraints violated in the adapted question.
+     * @return A new Lesson object.
+     * @throws IllegalValueException Thrown if there were any data constraints violated in the adapted question.
      */
     public Lesson toModelType() throws IllegalValueException {
         if (this.name == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
                 LessonName.class.getSimpleName()));
-        }
-        if (this.studentInfos == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
-                UniqueStudentInfoList.class.getSimpleName()));
         }
 
         if (!LessonName.isValidName(this.name)) {

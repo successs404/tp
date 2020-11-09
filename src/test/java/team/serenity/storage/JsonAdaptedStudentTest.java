@@ -26,32 +26,32 @@ class JsonAdaptedStudentTest {
     }
 
     @Test
-    public void toModelType_emptyNameThrowsIllegalValueException() throws Exception {
+    public void toModelType_emptyNameThrowsIllegalValueException() {
         String emptyName = "";
         String emptyWithSpace = " ";
         String validMatric = "A0123456A";
         JsonAdaptedStudent student = new JsonAdaptedStudent(emptyName, validMatric);
         JsonAdaptedStudent anotherStudent = new JsonAdaptedStudent(emptyWithSpace, validMatric);
-        assertThrows(IllegalValueException.class, () -> student.toModelType());
-        assertThrows(IllegalValueException.class, () -> anotherStudent.toModelType());
+        assertThrows(IllegalValueException.class, student::toModelType);
+        assertThrows(IllegalValueException.class, anotherStudent::toModelType);
     }
 
     @Test
-    public void toModelType_emptyMatricThrowsIllegalValueException() throws Exception {
+    public void toModelType_emptyMatricThrowsIllegalValueException() {
         String validName = "Aaron Tan";
         String emptyMatric = "";
         String emptyMatricWithSpace = " ";
         JsonAdaptedStudent student = new JsonAdaptedStudent(validName, emptyMatric);
         JsonAdaptedStudent anotherStudent = new JsonAdaptedStudent(validName, emptyMatricWithSpace);
-        assertThrows(IllegalValueException.class, () -> student.toModelType());
-        assertThrows(IllegalValueException.class, () -> anotherStudent.toModelType());
+        assertThrows(IllegalValueException.class, student::toModelType);
+        assertThrows(IllegalValueException.class, anotherStudent::toModelType);
     }
 
     @Test
-    public void toModelType_invalidMatricThrowsIllegalValueException() throws Exception {
+    public void toModelType_invalidMatricThrowsIllegalValueException() {
         String validName = "Aaron Tan";
         String invalidMatricAdditionalNumber = "A12345678R";
         JsonAdaptedStudent student = new JsonAdaptedStudent(validName, invalidMatricAdditionalNumber);
-        assertThrows(IllegalValueException.class, () -> student.toModelType());
+        assertThrows(IllegalValueException.class, student::toModelType);
     }
 }
